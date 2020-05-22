@@ -1,0 +1,7 @@
+tasks:
+  - init: npm install
+    command: npm run dev
+
+vscode:
+  extensions:
+    - vscodevim.vim@1.14.4:J23IcrsTBvg+A17bhXj3og==

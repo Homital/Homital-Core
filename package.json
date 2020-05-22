@@ -6,16 +6,17 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node app/index.js 2333",
-    "start:dev": "forever start -w app/index.js 2333",
-    "start:production": "forever start -w app/index.js 80",
-    "stop": "forever stop app/index.js",
-    "logs": "forever logs app/index.js"
+    "start:dev": "node_modules/forever/bin/forever start -w app/index.js 2333",
+    "start:production": "node_modules/forever/bin/forever start -w app/index.js 80",
+    "stop": "node_modules/forever/bin/forever stop app/index.js",
+    "logs": "node_modules/forever/bin/forever logs app/index.js"
   },
   "author": "Team Homital",
   "license": "UNLICENSED",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "forever": "^2.0.0",
     "morgan": "^1.10.0"
   }
 }
