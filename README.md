@@ -10,7 +10,7 @@ The brain of homital system.
 
 This repository can be fully developed in Gitpod. To open it in Gitpod, [click here](https://gitpod.io/#https://github.com/Homital/Homital-Core).
 
-On start up, Gitpod would automatically install all dependencies and start up a development server on port 2333.
+On start up, Gitpod would automatically install all dependencies and start up a development server on port 2333, but it will certainly fail because you have to manually set the `HOMITALDB_USERNAME` and `HOMITALDB_PASSWORD` environment variables first :P
 
 ## List of APIs
 
