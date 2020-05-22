@@ -19,7 +19,7 @@ router.get('/users/:username/:roomname/:devicename', (req, res) => {
             console.error(err);
             res.status(404).json({success: false, error: err.toString()});
         }
-        res.json(status);
+        res.json({success: true, status: status});
     });
 });
 
