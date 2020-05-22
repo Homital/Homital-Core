@@ -1,0 +1,21 @@
+{
+  "name": "homital-core",
+  "version": "0.0.1",
+  "description": "homital backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node app/index.js 2333",
+    "start:dev": "forever start -w app/index.js 2333",
+    "start:production": "forever start -w app/index.js 80",
+    "stop": "forever stop app/index.js",
+    "logs": "forever logs app/index.js"
+  },
+  "author": "Team Homital",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0"
+  }
+}
