@@ -1,6 +1,7 @@
 //console.log(process.argv);
 const express = require('express');
 const cors = require('cors');
+require('dotenv').config(); //load .env file into process.env
 
 //const morgan = require('morgan');
 
