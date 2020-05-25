@@ -1,15 +1,16 @@
-var mongoose = require('mongoose');
-var Status = require('./models/status');
-var User = require('./models/user');
+const mongoose = require('mongoose');
+const Status = require('./models/status');
+const User = require('./models/user');
+const Token = require('./models/token');
 
-var dbusername = process.env.HOMITALDB_USERNAME;
-var dbuserpassword = process.env.HOMITALDB_PASSWORD;
+const dbusername = process.env.HOMITALDB_USERNAME;
+const dbuserpassword = process.env.HOMITALDB_PASSWORD;
 if (!dbusername || !dbuserpassword) {
     console.error(new Error('HOMITALDB_USERNAME or HOMITALDB_PASSWORD env var not set'));
     process.exit(1);
 }
 mongoose.connect(`mongodb://${dbusername}:${dbuserpassword}@ds045107.mlab.com:45107/homital`);
-var db = mongoose.connection;
+let db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error"));
 db.once("open", function(callback){
   console.log("Connection Succeeded");
@@ -17,11 +18,12 @@ db.once("open", function(callback){
 
 async function getUserByEmail (email) {
     //todo: get all instead of just one and return an error if got more than one
-    var the_user;
-    await User.findOne({'email': email}, (err, user) => {
+    let the_user;
+    await User.findOne({email: email}, (err, user) => {
         if (err) {
             console.log(err);
         }
+        console.log("getUserByEmail:", user)
         the_user = user;
     })
     return the_user;
@@ -29,28 +31,59 @@ async function getUserByEmail (email) {
 
 async function getUserByUsername (username) {
     //todo: get all instead of just one and return an error if got more than one
-    var the_user;
-    await User.findOne({'username': username}, (err, user) => {
+    let the_user;
+    await User.findOne({username: username}, (err, user) => {
         if (err) {
             console.log(err);
         }
         the_user = user;
-    })
+    });
     return the_user;
 }
 
 async function registerUser(username, email, password) {
     //no exisatance checking! to be fixed later
     //also no validation of input format
-    var user = new User({
+    let user = new User({
         username: username,
         email: email,
         password: password,
-        email_verified: false   
+        email_verified: false
     });
     await user.save();
     //todo: check for error from user.save()
     return {successful: true};
+}
+
+async function pushRefreshToken(token) {
+    let toke = new Token({token: token});
+    await toke.save();
+    //todo: check for errs
+    return {successful: true};
+}
+
+async function checkRefreshToken(token, callback) {
+    await Token.findOne({token: token}, (err, tok) => {
+        if (err) {
+            return callback(err.toString());
+        }
+        if (tok == null) {
+            return callback("refresh token not authorized");
+        }
+        return callback(null);
+    });
+}
+
+function removeRefreshToken(token, callback) {
+    Token.findOneAndDelete({token: token}, (err, tok) => {
+        if (err) {
+            return callback(err.toString());
+        }
+        if (tok == null) {
+            return callback("refresh token not authorized");
+        }
+        return callback(null);
+    });
 }
 
 module.exports = {
@@ -61,6 +94,9 @@ module.exports = {
     functions: {
         getUserByEmail: getUserByEmail,
         getUserByUsername: getUserByUsername,
-        registerUser: registerUser
+        registerUser: registerUser,
+        pushRefreshToken: pushRefreshToken,
+        checkRefreshToken: checkRefreshToken,
+        removeRefreshToken: removeRefreshToken
     }
 }

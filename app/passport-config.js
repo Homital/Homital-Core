@@ -3,8 +3,8 @@ const bcrypt = require('bcrypt');
 
 function initialize (passport, getUserByEmail, getUserByUsername) {
     const authenticateUser = async (username_or_email, password, done) => {
-        //console.log(`ue: ${username_or_email}, pw: ${password}`)
-        var user = await getUserByUsername(username_or_email);
+        console.log(`ue: ${username_or_email}, pw: ${password}`)
+        let user = await getUserByUsername(username_or_email);
         if (user == null) {
             console.log("username does not exist")
             user = await getUserByEmail(username_or_email);
