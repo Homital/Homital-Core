@@ -8,7 +8,7 @@
     "start:dev": "forever start -w app/index.js 2333",
     "start:production": "forever start -w app/index.js 80",
     "stop": "forever stop app/index.js",
-    "logs": "forever logs app/index.js"
+    "logs": "forever logs"
   },
   "author": "Team Homital",
   "license": "UNLICENSED",
