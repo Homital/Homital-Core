@@ -4,8 +4,9 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const db = require('../db/db');
 
-router.post('user/register', async (req, res) => {
+router.post('/user/register', async (req, res) => {
     try {
+        console.log('?ASDFV')
         //console.log(`id: ${req.body.id}\nusername: ${req.body.username}\nemail: ${req.body.email}\npassword: ${req.body.password}`);
         const hashed_password = await bcrypt.hash(req.body.password, 10); //to be moved to db functions
         if (await db.functions.getUserByUsername(req.body.username) != null) { //username exists
