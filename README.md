@@ -22,7 +22,7 @@ When the authorization of a request fails, some APIs will return `404 Not Found`
 
 ### Authorization
 
-Homital supports [JWT](https://jwt.io/) for authorizing API requests. Authorized requests should use an `Authorization` header with the value `Bearer <access_token>` where `<access_token>` is the JWT access token. A client app can obtain access tokens through the [App JWT flow](#app-jwt-flow) and a device can obtain access tokens through the [Device JWT flow](#device-jwt-flow). References for JWT can be found [here](https://jwt.io/introduction/) and [here](https://auth0.com/resources/ebooks/jwt-handbook).
+Homital supports [JWT](https://jwt.io/) for authorizing API requests. Authorized requests should use an `Authorization` header with the value `Bearer <access_token>` where `<access_token>` is the JWT access token. A client app can obtain access tokens through the [App JWT Flow](#app-jwt-flow) and a device can obtain access tokens through the [Device JWT Flow](#device-jwt-flow). References for JWT can be found [here](https://jwt.io/introduction/) and [here](https://auth0.com/resources/ebooks/jwt-handbook).
 
 #### App JWT Flow
 
