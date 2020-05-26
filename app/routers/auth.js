@@ -17,7 +17,7 @@ router.post('user/register', async (req, res) => {
         let reg_res = await db.functions.registerUser(req.body.username, req.body.email, hashed_password);
         res.json(reg_res);
     } catch (error) { //error in registration
-        res.status(403).json({success: false, error: error.toString()});
+        res.status(500).json({success: false, error: error.toString()});
     }
 });
 
@@ -32,15 +32,16 @@ router.delete('/user/logout', (req, res) => {
 })
 
 //POST /user/login?by=email/username
+//data validity checking (must be json)
 router.post('/user/login', async (req, res, next) => { //look up the user in db
-    if (req.query.by == 'email') {
-        req.user = await db.functions.getUserByEmail(req.email);
-    } else if (req.query.by == 'username') {
+    if (req.query.by === 'email') {
+        req.user = await db.functions.getUserByEmail(req.body.email);
+    } else if (req.query.by === 'username') {
         req.user = await db.functions.getUserByUsername(req.body.username);
     } else {
         return res.status(403).json({success: false, error: "requested login method not supported"});
     }
-    if (req.user == null) {
+    if (req.user === null) {
         return res.status(403).json({success: false, error: "username or email does not exist"});
     }
     next();
@@ -56,38 +57,37 @@ router.post('/user/login', async (req, res, next) => { //look up the user in db
     }
 }, (req, res) => { //no error
     const user = {username: req.user.username};
-    const access_token = generateAccessToken(user);
     const refresh_token = generateRefreshToken(user);
     db.functions.pushRefreshToken(refresh_token);
-    res.json({success: true, access_token: access_token, refresh_token: refresh_token});
-}); 
+    res.json({success: true, refresh_token: refresh_token});
+});
 
 router.post('/user/token', (req, res) => {
     const refresh_token = req.body.token;
-    if (refresh_token == null) {
-        return res.sendStatus(401);
+    if (refresh_token === null) {
+        return res.status(401).json({success: false, error: "?"});
     }
     db.functions.checkRefreshToken(refresh_token, (err) => {
-        if (err != null) {
+        if (err) {
             return res.status(403).json({success: false, error: err});
         }
         jwt.verify(refresh_token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
             if (err) {
-                return res.sendStatus(403);
+                return res.status(403).json({success: false, error: "?"});
             }
             const access_token = generateAccessToken({username: user.username});
-            res.json({access_token: access_token});
+            res.json({success: true, access_token: access_token});
         });
     }, (err) => {res.status(403).json({success: false, error: err})});
     
 });
 
 function generateAccessToken (user) {
-    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '10s'});
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '2m'});
 }
 
 function generateRefreshToken (user) {
-    return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
+    return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '2h'});
 }
 
 module.exports = router;

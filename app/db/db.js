@@ -13,7 +13,7 @@ mongoose.connect(`mongodb://${dbusername}:${dbuserpassword}@ds045107.mlab.com:45
 let db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error"));
 db.once("open", function(callback){
-  console.log("Connection Succeeded");
+  console.log("Connection Successful");
 });
 
 async function getUserByEmail (email) {
@@ -67,7 +67,7 @@ async function checkRefreshToken(token, callback) {
         if (err) {
             return callback(err.toString());
         }
-        if (tok == null) {
+        if (tok === null) {
             return callback("refresh token not authorized");
         }
         return callback(null);
@@ -79,7 +79,7 @@ function removeRefreshToken(token, callback) {
         if (err) {
             return callback(err.toString());
         }
-        if (tok == null) {
+        if (tok === null) {
             return callback("refresh token not authorized");
         }
         return callback(null);
