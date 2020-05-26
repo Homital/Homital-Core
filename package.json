@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon app/index.js 2333",
-    "start:dev": "node_modules/forever/bin/forever start -w app/index.js 2333",
-    "start:production": "node_modules/forever/bin/forever start -w app/index.js 80",
-    "stop": "node_modules/forever/bin/forever stop app/index.js",
-    "logs": "node_modules/forever/bin/forever logs app/index.js"
+    "start:dev": "forever start -w app/index.js 2333",
+    "start:production": "forever start -w app/index.js 80",
+    "stop": "forever stop app/index.js",
+    "logs": "forever logs app/index.js"
   },
   "author": "Team Homital",
   "license": "UNLICENSED",
@@ -17,16 +17,12 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "express-flash": "0.0.2",
-    "express-session": "^1.17.1",
-    "forever": "^2.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.15",
-    "morgan": "^1.10.0",
-    "passport": "^0.4.1",
-    "passport-local": "^1.0.0"
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "forever": "^3.0.0",
     "nodemon": "^2.0.4"
   }
 }
