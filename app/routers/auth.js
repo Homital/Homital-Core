@@ -87,7 +87,7 @@ function generateAccessToken (user) {
 }
 
 function generateRefreshToken (user) {
-    return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '2h'});
+    return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
 }
 
 module.exports = router;
