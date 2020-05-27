@@ -57,11 +57,11 @@ router.post('/user/login', async (req, res, next) => { //look up the user in db
         console.log(e);
         return res.status(500).json({success: false, error: "unknown, devs are working on it..."});
     }
-}, (req, res) => { //no error
+}, async (req, res) => { //no error
     console.log(req.user);
     const user = {username: req.user.username};
     const refresh_token = generateRefreshToken(user);
-    db.functions.pushRefreshToken(refresh_token);
+    await db.functions.pushRefreshToken(refresh_token);
     res.json({success: true, refresh_token: refresh_token});
 });
 
