@@ -1,12 +1,16 @@
+const fs = require('fs');
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config(); //load .env file into process.env
-
-//const morgan = require('morgan');
+var morgan = require('morgan');
 
 const app = express();
-
 const port = process.argv.length > 2 ? process.argv[2] : 2333;
+
+var accessLogStream = fs.createWriteStream(path.join(__dirname, '..', 'access.log'), { flags: 'a' })
+app.use(morgan('combined', { stream: accessLogStream }));
+//app.use(morgan('combined'));
 
 const api_router = require('./routers/api');
 
