@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon app/index.js 2333",
-    "start:dev": "forever start -w app/index.js 2333",
+    "start:dev": "forever start -w app/index.js 2333 && forever start serve_log.js",
     "start:production": "forever start -w app/index.js 80",
-    "stop": "forever stop app/index.js",
+    "stop": "forever stopall",
     "logs": "forever logs"
   },
   "author": "Team Homital",
