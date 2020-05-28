@@ -7,6 +7,7 @@ require('dotenv').config(); //load .env file into process.env
 var morgan = require('morgan');
 
 const app = express();
+app.options('*', cors()) // include before other routes
 const port = process.argv.length > 2 ? process.argv[2] : 2333;
 
 var accessLogStream = fs.createWriteStream(path.join(__dirname, '..', 'access.log'), { flags: 'a' })
@@ -16,6 +17,8 @@ app.use(morgan('combined', { stream: accessLogStream }));
 const api_router = require('./routers/api');
 
 app.use(cors());
+
+
 app.use(express.json());
 
 app.get('/test', (req, res) => {
