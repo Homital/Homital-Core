@@ -30,9 +30,12 @@ app.get('/', (req, res) => res.send('<h1>Hello from Homital Core~</h1><p>Homital
 
 app.use('/api', api_router);
 
-//app.listen(port, () => console.log(`Homital Core listening at port ${port}`));
-https.createServer({
-    key: fs.readFileSync(process.env.HTTPS_KEY),
-    cert: fs.readFileSync(process.env.HTTPS_SECRET)
-}, app)
-.listen(port, () => console.log(`Homital Core listening at port ${port} over HTTPS`));
+if (process.argv.includes('dev')) {
+    app.listen(port, () => console.log(`Homital Core (dev) listening at port ${port}`));
+} else {
+    https.createServer({
+        key: fs.readFileSync(process.env.HTTPS_KEY),
+        cert: fs.readFileSync(process.env.HTTPS_SECRET)
+    }, app)
+    .listen(port, () => console.log(`Homital Core listening at port ${port} over HTTPS`));
+}

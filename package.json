@@ -4,7 +4,7 @@
   "description": "homital backend",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon app/index.js 2333",
+    "dev": "nodemon app/index.js 2333 dev",
     "start:dev": "forever start -w app/index.js 2333 && forever start serve_log.js",
     "start:production": "forever start -w app/index.js 80",
     "stop": "forever stopall",
