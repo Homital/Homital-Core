@@ -14,7 +14,7 @@ On start up, Gitpod would automatically install all dependencies and start up a 
 
 ## APIs
 
-The APIs can be accessed from http://0.0.0.0/api if in production mode and http://0.0.0.0:2333/api in development mode (change the URL accordingly).
+The APIs can be accessed from <http://0.0.0.0/api> if in production mode and <http://0.0.0.0:2333/api> in development mode (change the URL accordingly).
 
 All APIs except the ones under `/auth` require authorization (See [Authorization](#authorization)).
 
