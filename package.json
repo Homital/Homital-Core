@@ -8,7 +8,9 @@
     "start:dev": "forever start -w app/index.js 2333 && forever start serve_log.js",
     "start:production": "forever start -w app/index.js 80",
     "stop": "forever stopall",
-    "logs": "forever logs"
+    "logs": "forever logs",
+    "lint-md": "npx remark .",
+    "lint-js": "npx eslint ."
   },
   "author": "Team Homital",
   "license": "UNLICENSED",
@@ -25,6 +27,9 @@
     "eslint": "^7.2.0",
     "eslint-config-google": "^0.14.0",
     "forever": "^3.0.0",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "remark-cli": "^8.0.0",
+    "remark-lint": "^7.0.0",
+    "remark-preset-lint-recommended": "^4.0.0"
   }
 }
