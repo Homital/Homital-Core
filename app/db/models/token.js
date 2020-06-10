@@ -1,9 +1,9 @@
-let mongoose = require("mongoose");
-let Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-let TokenSchema = new Schema({
-  token: String
+const TokenSchema = new Schema({
+  token: String,
 });
 
-let Token = mongoose.model("Token", TokenSchema);
+const Token = mongoose.model('Token', TokenSchema);
 module.exports = Token;

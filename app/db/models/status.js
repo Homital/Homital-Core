@@ -1,10 +1,10 @@
-let mongoose = require("mongoose");
-let Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-let StatusSchema = new Schema({
+const StatusSchema = new Schema({
   id: String,
-  power: Boolean
+  power: Boolean,
 });
 
-let Status = mongoose.model("Status", StatusSchema);
+const Status = mongoose.model('Status', StatusSchema);
 module.exports = Status;

@@ -22,6 +22,8 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "eslint": "^7.2.0",
+    "eslint-config-google": "^0.14.0",
     "forever": "^3.0.0",
     "nodemon": "^2.0.4"
   }
