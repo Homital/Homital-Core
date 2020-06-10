@@ -29,8 +29,8 @@ app.get('/test', (req, res) => {
 
 app.get('/',
     (req, res) => res.send(
-        `<h1>Hello from Homital Core~</h1>
-        <p>Homital Core currently only serves APIs for apps and devices.</p>`,
+        `<h1>Hello from Homital Core~</h1>\
+<p>Homital Core currently only serves APIs for apps and devices.</p>`,
     ),
 );
 // app.use(express.static('../public'));
@@ -46,7 +46,7 @@ if (process.argv.includes('dev')) {
     key: fs.readFileSync(process.env.HTTPS_KEY),
     cert: fs.readFileSync(process.env.HTTPS_SECRET),
   }, app)
-      .listen(port, () => console.log(`
-          Homital Core listening at port ${port} over HTTPS
-      `));
+      .listen(port, () => console.log(
+          `Homital Core listening at port ${port} over HTTPS`,
+      ));
 }
