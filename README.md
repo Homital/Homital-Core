@@ -37,6 +37,27 @@ The flow for user authorization is:
 
 ##### 0. Register A New User
 
+###### Request for Email Verification OTP
+
+```
+POST /auth/user/getotp
+```
+
+This endpoint receives a JSON object from the request body. The JSON object includes the following field:
+
+Name     | Type   | Required | Description
+---------|--------|----------|------------
+email    | String | Yes      | The email
+
+It will respond with a JSON object with the following fields:
+
+Name          | Type    | Description
+--------------|---------|------------
+success       | Boolean | The status of the API call
+error         | String  | Only present if `success===false`
+
+###### Register with OTP
+
 ```
 POST /auth/user/register
 ```
@@ -48,13 +69,14 @@ Name     | Type   | Required | Description
 username | String | Yes      | The username
 email    | String | Yes      | The email
 password | String | Yes      | The password
+otp      | String | Yes      | The OTP
 
 It will respond with a JSON object with the following fields:
 
 Name          | Type    | Description
 --------------|---------|------------
 success       | Boolean | The status of the API call
-error         | String  | Only present if `success==false`
+error         | String  | Only present if `success===false`
 
 ##### 1. Request for A Refresh Token
 
@@ -68,8 +90,8 @@ This endpoint receives a JSON object from the request body. The JSON object incl
 
 Name     | Type   | Required                          | Description
 ---------|--------|-----------------------------------|------------
-username | String | Yes if `login_method=="username"` | If `login_method=="email"`, this field will be ignored
-email    | String | Yes if `login_method=="email"`    | If `login_method=="username"`, this field will be ignored
+username | String | Yes if `login_method==="username"` | If `login_method==="email"`, this field will be ignored
+email    | String | Yes if `login_method==="email"`    | If `login_method==="username"`, this field will be ignored
 password | String | Yes                               | The password
 
 It will respond with a JSON object with the following fields:
@@ -77,7 +99,7 @@ It will respond with a JSON object with the following fields:
 Name          | Type    | Description
 --------------|---------|------------
 success       | Boolean | The status of the API call
-error         | String  | Only present if `success==false`
+error         | String  | Only present if `success===false`
 refresh_token | String  | The refresh token
 
 ##### 2. Request for An Access Token
@@ -97,7 +119,7 @@ The server will respond with a JSON object with the following fields:
 Name          | Type    | Description
 --------------|---------|------------
 success       | Boolean | The status of the API call
-error         | String  | Only present if `success==false`
+error         | String  | Only present if `success===false`
 access_token  | String  | The access token
 
 ##### 3. Make Authenticated API Calls
@@ -125,7 +147,7 @@ The server will respond with a JSON object with the following fields:
 Name          | Type    | Description
 --------------|---------|------------
 success       | Boolean | The status of the API call
-error         | String  | Only present if `success==false`
+error         | String  | Only present if `success===false`
 
 #### Device JWT Flow
 
