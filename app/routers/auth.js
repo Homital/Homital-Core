@@ -3,10 +3,54 @@ const router = express.Router(); // Not my problem :P
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const db = require('../db/db');
+const nodemailer = require('nodemailer');
+const utils = require('../utils/utils');
+
+router.post('/user/getotp', (req, res) => {
+  const transporter = nodemailer.createTransport({
+    host: process.env.NOREPLY_EMAIL_HOST,
+    port: parseInt(process.env.NOREPLY_EMAIL_PORT, 10),
+    secure: true,
+    auth: {
+      user: process.env.NOREPLY_EMAIL_ADDR,
+      pass: process.env.NOREPLY_EMAIL_PASS,
+    },
+  }, {
+    from: process.env.NOREPLY_EMAIL_ADDR,
+  });
+  transporter.verify((error, success) => {
+    if (error) {
+      console.log(error);
+      res.json({
+        success: false,
+        error: 'Error during verification',
+      });
+    } else {
+      console.log('SMTP server is ready to take our messages');
+      const otp = utils.generateOTP(req.body.email);
+      transporter.sendMail({
+        to: req.body.email,
+        subject: 'Here Is Your Homital OTP',
+        text: otp,
+        html: `<h1>Your OTP for Homital is:</h1><p>${otp}</p>`,
+      }, (error, info) => {
+        if (error) {
+          console.log(error);
+          res.json({
+            success: false,
+            error: 'Error sending email',
+          });
+        } else {
+          res.json({success: true});
+        }
+      });
+    }
+  });
+});
 
 router.post('/user/register', async (req, res) => {
   try {
-    console.log('?ASDFV');
+    // console.log('in post(register)');
     // console.log(`id: ${req.body.id}\nusername: ${req.body.username}\n
     // email: ${req.body.email}\npassword: ${req.body.password}`);
 
@@ -15,25 +59,38 @@ router.post('/user/register', async (req, res) => {
 
     // username exists
     if (await db.functions.getUserByUsername(req.body.username) != null) {
+      // console.log(1);
       // console.log(await db.functions.getUserByUsername(req.body.username))
       res.status(403).json({
         success: false,
         error: 'username already registered',
       });
-    // email exists
+      // email exists
     } else if (await db.functions.getUserByEmail(req.body.email) != null) {
+      // console.log(2);
       res.status(403).json({
         success: false,
         error: 'email already registered',
       });
     }
-    const regRes = await db.functions.registerUser(
-        req.body.username,
-        req.body.email,
-        hashedPassword,
-    );
-    res.json(regRes);
+    // console.log(3);
+    if (utils.testOTP(req.body.email, req.body.otp)) {
+      // console.log(4);
+      const regRes = await db.functions.registerUser(
+          req.body.username,
+          req.body.email,
+          hashedPassword,
+      );
+      res.json({success: regRes === 0});
+    } else {
+      // console.log(5);
+      res.status(403).json({
+        success: false,
+        error: 'wrong OTP',
+      });
+    }
   } catch (error) { // error in registration
+    // console.log(6);
     res.status(500).json({success: false, error: error.toString()});
   }
 });

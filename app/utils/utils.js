@@ -51,7 +51,56 @@ function authenticateDevice(req, res, next) {
   }
 }
 
+let OTPList = [];
+
+/**
+ * Generates a random 6-digit number as a string,
+ * and remove expired otps
+ * @param {string} email - email
+ * @return {string} OTP
+ */
+function generateOTP(email) {
+  removeExpiredOTP();
+  const otp = ((x) => x.length<6 ? '0'*(6-x.length)+x : x)(Math.floor(
+      Math.random()*1000000,
+  ).toString());
+  OTPList.push({
+    email: email,
+    otp: otp,
+    exp: new Date().getTime() + 1000 * 60 * 30, // 30 minutes after now
+  });
+  return otp;
+}
+
+/**
+ * Validates the OTP.
+ * @param {string} email
+ * @param {string} otp
+ * @return {boolean} validation result
+ */
+function testOTP(email, otp) {
+  let res = false;
+  OTPList.forEach((x) => {
+    if (x.email === email) {
+      if (x.otp == otp) {
+        res = true;
+      }
+    }
+  });
+  removeExpiredOTP();
+  return res;
+}
+
+/**
+ * Remove expired OTPs.
+ */
+function removeExpiredOTP() {
+  OTPList = OTPList.filter((x) => x.exp < new Date().getTime());
+}
+
 module.exports = {
-  authenticateToken: authenticateToken,
-  authenticateDevice: authenticateDevice,
+  authenticateToken,
+  authenticateDevice,
+  generateOTP,
+  testOTP,
 };
