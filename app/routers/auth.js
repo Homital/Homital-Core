@@ -6,33 +6,24 @@ const db = require('../db/db');
 
 router.post('/user/register', async (req, res) => {
   try {
-    console.log('?ASDFV');
+    // console.log('?ASDFV');
     // console.log(`id: ${req.body.id}\nusername: ${req.body.username}\n
     // email: ${req.body.email}\npassword: ${req.body.password}`);
-
-    // to be moved to db functions
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-
-    // username exists
-    if (await db.functions.getUserByUsername(req.body.username) != null) {
-      // console.log(await db.functions.getUserByUsername(req.body.username))
-      res.status(403).json({
-        success: false,
-        error: 'username already registered',
-      });
-    // email exists
-    } else if (await db.functions.getUserByEmail(req.body.email) != null) {
-      res.status(403).json({
-        success: false,
-        error: 'email already registered',
-      });
-    }
     const regRes = await db.functions.registerUser(
         req.body.username,
         req.body.email,
-        hashedPassword,
+        req.body.password,
     );
-    res.json(regRes);
+    if (await regRes == null) {
+      // successfully registered
+      res.json(regRes);
+    } else {
+      // else err
+      res.status(403).json({
+        success: false,
+        error: regRes,
+      });
+    }
   } catch (error) { // error in registration
     res.status(500).json({success: false, error: error.toString()});
   }
