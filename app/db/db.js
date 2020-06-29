@@ -159,11 +159,11 @@ module.exports = {
     User: User,
   },
   functions: {
-    getUserByEmail: getUserByEmail,
-    getUserByUsername: getUserByUsername,
-    registerUser: registerUser,
-    pushRefreshToken: pushRefreshToken,
-    checkRefreshToken: checkRefreshToken,
-    removeRefreshToken: removeRefreshToken,
+    getUserByEmail,
+    getUserByUsername,
+    registerUser,
+    pushRefreshToken,
+    checkRefreshToken,
+    removeRefreshToken,
   },
 };
