@@ -51,7 +51,7 @@ function authenticateDevice(req, res, next) {
   }
 }
 
-let OTPList = [];
+let OTPList = [{email:'e0424619@u.nus.edu',otp:'990811',exp:1593439412204}];
 
 /**
  * Generates a random 6-digit number as a string,
@@ -79,6 +79,7 @@ function generateOTP(email) {
  * @return {boolean} validation result
  */
 function testOTP(email, otp) {
+  console.log(OTPList);
   let res = false;
   OTPList.forEach((x) => {
     if (x.email === email) {

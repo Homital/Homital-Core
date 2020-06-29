@@ -37,6 +37,7 @@ async function getUserByEmail(email) {
     console.log('getUserByEmail:', user);
     theUser = user;
   });
+  console.log("getUserByEmail() = ", theUser);
   return theUser;
 }
 
@@ -54,6 +55,7 @@ async function getUserByUsername(username) {
     }
     theUser = user;
   });
+  console.log("getUserByUsername() = ", theUser);
   return theUser;
 }
 
@@ -159,11 +161,11 @@ module.exports = {
     User: User,
   },
   functions: {
-    getUserByEmail: getUserByEmail,
-    getUserByUsername: getUserByUsername,
-    registerUser: registerUser,
-    pushRefreshToken: pushRefreshToken,
-    checkRefreshToken: checkRefreshToken,
-    removeRefreshToken: removeRefreshToken,
+    getUserByEmail,
+    getUserByUsername,
+    registerUser,
+    pushRefreshToken,
+    checkRefreshToken,
+    removeRefreshToken,
   },
 };

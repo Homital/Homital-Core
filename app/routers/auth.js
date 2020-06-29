@@ -130,15 +130,15 @@ router.post('/user/login', async (req, res, next) => { // look up the user in db
 router.post('/user/token', (req, res) => {
   const refreshToken = req.body.token;
   if (refreshToken === null) {
-    return res.status(401).json({success: false, error: '?'});
+    return res.status(401).json({success: false, error: '??'});
   }
   db.functions.checkRefreshToken(refreshToken, (err) => {
     if (err) {
       return res.status(403).json({success: false, error: err});
     }
-    jwt.verify(refreshToken, process.env.REFRESHTOKEN_SECRET, (err, user) => {
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
       if (err) {
-        return res.status(403).json({success: false, error: '?'});
+        return res.status(403).json({success: false, error: '???'});
       }
       const accessToken = generateAccessToken({username: user.username});
       res.json({success: true, accessToken: accessToken});
@@ -154,7 +154,7 @@ router.post('/user/token', (req, res) => {
  * @return {string} access token
  */
 function generateAccessToken(user) {
-  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '2m'});
+  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '30m'});
 }
 
 /**
@@ -163,7 +163,7 @@ function generateAccessToken(user) {
  * @return {string} refresh token
  */
 function generateRefreshToken(user) {
-  return jwt.sign(user, process.env.REFRESHTOKEN_SECRET);
+  return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
 }
 
 module.exports = router;
