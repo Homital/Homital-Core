@@ -4,8 +4,7 @@ const User = require('./models/user');
 const Token = require('./models/token');
 const bcrypt = require('bcrypt');
 
-const dbusername = process.env.HOMITALDB_USERNAME;
-const dbuserpassword = process.env.HOMITALDB_PASSWORD;
+const dbconnectionstring = process.env.HOMITALDB_CONNECTIONSTRING;
 
 if (!dbusername || !dbuserpassword) {
   console.error(
@@ -13,8 +12,7 @@ if (!dbusername || !dbuserpassword) {
   );
   process.exit(1);
 }
-const url = `mongodb+srv://homital:${dbuserpassword}@cluster0-fbjzw.mongodb.net/${dbusername}?retryWrites=true&w=majority`;
-mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(dbconnectionstring, {useNewUrlParser: true, useUnifiedTopology: true});
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', function(callback) {
