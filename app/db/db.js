@@ -37,6 +37,7 @@ async function getUserByEmail(email) {
     console.log('getUserByEmail:', user);
     theUser = user;
   });
+  console.log("getUserByEmail() = ", theUser);
   return theUser;
 }
 
@@ -54,6 +55,7 @@ async function getUserByUsername(username) {
     }
     theUser = user;
   });
+  console.log("getUserByUsername() = ", theUser);
   return theUser;
 }
 

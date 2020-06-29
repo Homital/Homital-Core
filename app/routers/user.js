@@ -36,6 +36,7 @@ const deviceTypes = [
         id: 'switch',
         action: (options, status) => {
           status.power = ! status.power;
+          return status.power;
         },
       },
     ],
@@ -52,6 +53,7 @@ const deviceTypes = [
         id: 'switch',
         action: (options, status) => {
           status.power = ! status.power;
+          return status.power;
         },
       },
     ],
@@ -67,7 +69,10 @@ router.get('/:username/rooms', (req, res) => {
     if (user.username === req.params.username) {
       const rooms = [];
       for (const rm of user.rooms) {
-        rooms.push({name: rm.roomname});
+        rooms.push({
+          name: rm.roomname,
+          icon: rm.icon,
+        });
       }
       res.json(rooms);
       return;
@@ -169,8 +174,8 @@ router.post('/:username/rooms/:room/devices', (req, res) => {
             if (dt.name === req.body.type) {
               rm.devices.push({
                 type: req.body.type,
-                name: dt.name,
-                room: req.body.room,
+                name: req.body.name,
+                room: req.params.room,
                 status: dt.status,
               });
               res.json(null);
@@ -218,14 +223,14 @@ router.get(
                   }
                   res.status(500).json({
                     success: false,
-                    error: 'device not supported',
+                    error: `device not supported: ${device.type}`,
                   });
                   return;
                 }
               }
               res.status(400).json({
                 success: false,
-                error: 'device not found',
+                error: `device not found: ${req.params.device}`,
               });
               return;
             }
