@@ -9,8 +9,8 @@
     "start:production": "forever start -w app/index.js 80",
     "stop": "forever stopall",
     "logs": "forever logs",
-    "lint-md": "npx remark .",
-    "lint-js": "npx eslint ."
+    "lint-md": "remark .",
+    "lint-js": "eslint ."
   },
   "author": "Team Homital",
   "license": "UNLICENSED",

@@ -53,37 +53,14 @@ router.post('/user/register', async (req, res) => {
     // console.log('in post(register)');
     // console.log(`id: ${req.body.id}\nusername: ${req.body.username}\n
     // email: ${req.body.email}\npassword: ${req.body.password}`);
-
-    // to be moved to db functions
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-
-    // username exists
-    if (await db.functions.getUserByUsername(req.body.username) != null) {
-      // console.log(1);
-      // console.log(await db.functions.getUserByUsername(req.body.username))
-      res.status(403).json({
-        success: false,
-        error: 'username already registered',
-      });
-      // email exists
-    } else if (await db.functions.getUserByEmail(req.body.email) != null) {
-      // console.log(2);
-      res.status(403).json({
-        success: false,
-        error: 'email already registered',
-      });
-    }
-    // console.log(3);
     if (utils.testOTP(req.body.email, req.body.otp)) {
-      // console.log(4);
       const regRes = await db.functions.registerUser(
           req.body.username,
           req.body.email,
-          hashedPassword,
+          req.body.password,
       );
-      res.json({success: regRes === 0});
+      res.status(regRes.success ? 200 : 403).json(regRes);
     } else {
-      // console.log(5);
       res.status(403).json({
         success: false,
         error: 'wrong OTP',
@@ -97,7 +74,7 @@ router.post('/user/register', async (req, res) => {
 
 router.delete('/user/logout', (req, res) => {
   db.functions.removeRefreshToken(req.body.token, (err) => {
-    if (err != null) {
+    if (err !== null) {
       // console.log("got err...")
       return res.status(403).json({success: false, error: err});
     }
