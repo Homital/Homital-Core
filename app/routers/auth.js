@@ -14,16 +14,7 @@ router.post('/user/register', async (req, res) => {
         req.body.email,
         req.body.password,
     );
-    if (await regRes == null) {
-      // successfully registered
-      res.json(regRes);
-    } else {
-      // else err
-      res.status(403).json({
-        success: false,
-        error: regRes,
-      });
-    }
+    res.status(regRes.success ? 200 : 403).json(regRes);
   } catch (error) { // error in registration
     res.status(500).json({success: false, error: error.toString()});
   }
@@ -31,7 +22,7 @@ router.post('/user/register', async (req, res) => {
 
 router.delete('/user/logout', (req, res) => {
   db.functions.removeRefreshToken(req.body.token, (err) => {
-    if (err != null) {
+    if (err !== null) {
       // console.log("got err...")
       return res.status(403).json({success: false, error: err});
     }
