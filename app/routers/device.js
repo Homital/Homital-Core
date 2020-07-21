@@ -1,4 +1,5 @@
 const express = require('express');
+// eslint-disable-next-line new-cap
 const router = express.Router(); // Not my problem :P
 const db = require('../db/db');
 const utils = require('../utils/utils');

@@ -37,7 +37,7 @@ async function getUserByEmail(email) {
     console.log('getUserByEmail:', user);
     theUser = user;
   });
-  console.log("getUserByEmail() = ", theUser);
+  console.log('getUserByEmail() = ', theUser);
   return theUser;
 }
 
@@ -55,7 +55,7 @@ async function getUserByUsername(username) {
     }
     theUser = user;
   });
-  console.log("getUserByUsername() = ", theUser);
+  console.log('getUserByUsername() = ', theUser);
   return theUser;
 }
 
@@ -85,6 +85,23 @@ async function registerUser(username, email, password) {
   return res === undefined ?
     {success: true} :
     {success: false, error: res.toString()};
+}
+
+/**
+ * Change password
+ * @param {string} email
+ * @param {string} password
+ * @return {number} statusCode
+ */
+async function changePassword(email, password) {
+  const res = await User.updateOne({email: email}, {password: password});
+  if (res.n) {
+    if (res.nModified) {
+      return 200;
+    }
+    return 500;
+  }
+  return 404;
 }
 
 /**
@@ -167,5 +184,6 @@ module.exports = {
     pushRefreshToken,
     checkRefreshToken,
     removeRefreshToken,
+    changePassword,
   },
 };

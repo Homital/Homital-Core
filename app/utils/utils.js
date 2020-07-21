@@ -45,13 +45,27 @@ function authenticateDevice(req, res, next) {
     return;
   } else {
     res.status(403).json({
-      success: false, error: 'authentication token not recognized'},
+      success: false, error: 'authentication token not recognized',
+    },
     );
     return;
   }
 }
 
-let OTPList = [{email:'e0424619@u.nus.edu',otp:'990811',exp:1593439412204}];
+/**
+ * Validate email address
+ * @param {string} email
+ * @return {boolean} isValid
+ */
+function validateEmail(email) {
+  // eslint-disable-next-line max-len
+  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+}
+
+let OTPList = [
+  {email: 'e0424619@u.nus.edu', otp: '990811', exp: 1593439412204},
+];
 
 /**
  * Generates a random 6-digit number as a string,
@@ -61,8 +75,8 @@ let OTPList = [{email:'e0424619@u.nus.edu',otp:'990811',exp:1593439412204}];
  */
 function generateOTP(email) {
   removeExpiredOTP();
-  const otp = ((x) => x.length<6 ? '0'*(6-x.length)+x : x)(Math.floor(
-      Math.random()*1000000,
+  const otp = ((x) => x.length < 6 ? '0' * (6 - x.length) + x : x)(Math.floor(
+      Math.random() * 1000000,
   ).toString());
   OTPList.push({
     email: email,
@@ -102,6 +116,7 @@ function removeExpiredOTP() {
 module.exports = {
   authenticateToken,
   authenticateDevice,
+  validateEmail,
   generateOTP,
   testOTP,
 };
