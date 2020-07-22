@@ -6,7 +6,9 @@ const utils = require('../utils/utils');
 
 /** Temporary */
 
+/*
 const users = [];
+*/
 
 /*
 userAlice = {
@@ -24,6 +26,7 @@ userAlice = {
 }
 */
 
+/*
 const deviceTypes = [
   {
     name: 'homital-L0',
@@ -60,11 +63,41 @@ const deviceTypes = [
     ],
   },
 ];
+*/
 
 /** End Temporary */
 
 router.use(utils.authenticateToken);
 
+router.get('/rooms', (req, res) => {
+  const username = req.user.username;
+});
+
+router.post('/rooms', (req, res) => {
+  const username = req.user.username;
+});
+
+router.delete('/rooms', (req, res) => {
+  const username = req.user.username;
+});
+
+router.get('/rooms/members', (req, res) => {
+  const username = req.user.username;
+});
+
+router.post('/rooms/members', (req, res) => {
+  const username = req.user.username;
+});
+
+router.put('/rooms/members', (req, res) => {
+  const username = req.user.username;
+});
+
+router.delete('/rooms/members', (req, res) => {
+  const username = req.user.username;
+});
+
+/*
 router.get('/:username/rooms', (req, res) => {
   for (const user of users) {
     if (user.username === req.params.username) {
@@ -312,7 +345,7 @@ router.post(
       });
       return;
     },
-);
+);*/
 
 /*
 router.post('/:username/:roomname/:devicename/:actionname', (req, res) => {

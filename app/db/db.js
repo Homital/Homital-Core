@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
-const Status = require('./models/status');
-const User = require('./models/user');
-const Token = require('./models/token');
+const Status = require('./models/status').Status;
+const User = require('./models/user').User;
+const Token = require('./models/token').Token;
+const Room = require('./models/room').Room;
 const bcrypt = require('bcrypt');
 
 const dbconnectionstring = process.env.HOMITALDB_CONNECTIONSTRING;
@@ -24,7 +25,7 @@ db.once('open', function(callback) {
 
 /**
  * Get the user using his email
- * @param {string} email
+ * @param {String} email
  * @return {DocumentQuery} // import type!
  */
 async function getUserByEmail(email) {
@@ -43,13 +44,13 @@ async function getUserByEmail(email) {
 
 /**
  * Get the user using his username
- * @param {string} username
+ * @param {String} username
  * @return {DocumentQuery}
  */
 async function getUserByUsername(username) {
   // todo: get all instead of just one and return an error if got more than one
   let theUser;
-  await User.findOne({username: username}, (err, user) => {
+  await User.findOne({username}, (err, user) => {
     if (err) {
       console.log(err);
     }
@@ -62,9 +63,9 @@ async function getUserByUsername(username) {
 /**
  * Register a new user
  * Create a new document in the database
- * @param {string} username
- * @param {string} email
- * @param {string} password
+ * @param {String} username
+ * @param {String} email
+ * @param {String} password
  * @return {object} response object
  */
 async function registerUser(username, email, password) {
@@ -106,9 +107,9 @@ async function changePassword(email, password) {
 
 /**
  * Check whether username already exists, or if the email was registered
- * @param {string} username
- * @param {string} email
- * @return {string} error message or undefined if check passed
+ * @param {String} username
+ * @param {String} email
+ * @return {String} error message or undefined if check passed
  */
 async function checkExistance(username, email) {
   let errorMessage;
@@ -126,8 +127,8 @@ async function checkExistance(username, email) {
 
 /**
  * Save the refresh token as a new document in the database
- * @param {string} token - refresh token
- * @return {number} status (0 for success, anything else for failure)
+ * @param {String} token - refresh token
+ * @return {Number} status (0 for success, anything else for failure)
  */
 async function pushRefreshToken(token) {
   const toke = new Token({token: token});
@@ -139,7 +140,7 @@ async function pushRefreshToken(token) {
 /**
  * Check if the provided refresh token is valid
  * (will change callback to something better...)
- * @param {string} token - refresh token
+ * @param {String} token - refresh token
  * @param {Function} callback - emmm
  */
 async function checkRefreshToken(token, callback) {
@@ -157,7 +158,7 @@ async function checkRefreshToken(token, callback) {
 /**
  * Remove the provided refresh token from database
  * (will change callback to something better...)
- * @param {string} token - refresh token
+ * @param {String} token - refresh token
  * @param {Function} callback - emmm
  */
 function removeRefreshToken(token, callback) {
@@ -170,6 +171,240 @@ function removeRefreshToken(token, callback) {
     }
     return callback(null);
   });
+}
+
+/**
+ * Create a  new room
+ * @param {String} username
+ * @param {String} roomName
+ * @return {String} roomId
+ */
+async function createRoom(username, roomName) {
+  const room = new Room(
+      {
+        members: [
+          {
+            username,
+            role: 'owner',
+          },
+        ],
+      },
+  );
+  let roomId;
+  await room.save(async (err, room) => {
+    if (err) {
+      console.log(err);
+    }
+    roomId = room._id;
+    await User.updateOne(
+        {username},
+        {$push: {
+          rooms: {
+            name: roomName,
+            roomId,
+            role: 'owner',
+          },
+        }},
+    );
+  });
+  return roomId;
+}
+
+/**
+ * Get rooms of a user
+ * @param {String} username
+ * @return {Array} array of rooms
+ */
+async function getRooms(username) {
+  const user = await getUserByUsername(username);
+  const rooms = [];
+  for (const room of user.rooms) {
+    rooms.push({
+      name: room.name,
+      uid: room.roomId,
+      role: room.role,
+    });
+  }
+  return rooms;
+}
+
+/**
+ * Delete a room
+ * @param {String} username
+ * @param {String} roomId
+ */
+async function deleteRoom(username, roomId) {
+  await User.updateOne(
+      {username},
+      {$pull: {rooms: {roomId}}},
+  );
+  return;
+}
+
+/**
+ * add a new member to a room
+ * @param {String} username
+ * @param {String} roomId
+ * @param {String} newMemberUsername
+ * @param {String} role
+ * @param {String} roomName
+ * @return {Number} Status of operation:
+ * <br>`0` - successful
+ * <br>`1` - unauthorized
+ * <br>`2` - knknown
+ */
+async function addRoomMember(
+    username, roomId, newMemberUsername, role, roomName,
+) {
+  const updateRoomResult = await Room.updateOne(
+      {
+        _id: roomId,
+        members: {
+          $in: [
+            {
+              username,
+              role: {
+                $in: [
+                  'owner',
+                  'admin',
+                ],
+              },
+            },
+          ],
+        },
+      },
+      {$push: {
+        members: {
+          username: newMemberUsername,
+          role,
+        },
+      }},
+  );
+  if (!updateRoomResult.n) {
+    return 1;
+  } else if (!updateRoomResult.nModified) {
+    return 2;
+  }
+  const updateUserResult = await User.updateOne(
+      {username: newMemberUsername},
+      {$push: {
+        rooms: {
+          name: roomName,
+          roomId,
+          role,
+        },
+      }},
+  );
+  if (updateUserResult) {
+    return 0;
+  }
+  return 2;
+}
+
+/**
+ * Get members of a room
+ * @param {String} username
+ * @param {String} roomId
+ */
+async function getRoomMembers(username, roomId) {
+  const members = [];
+  await Room.findOne({username}, (err, room) => {
+    if (err) {
+      console.log(err);
+    }
+    for (const member of room.members) {
+      members.push({
+        username: member.username,
+        role: member.role,
+      });
+    }
+  });
+  return members;
+}
+
+//Missing status checking
+/**
+ * delete a member from a room
+ * @param {String} username
+ * @param {String} roomId
+ * @param {String} usernameToRemove
+ */
+async function deleteRoomMember(username, roomId, usernameToRemove) {
+  await Room.updateOne(
+      {
+        _id: roomId,
+        members: {
+          $in: [
+            {
+              username,
+              role: {
+                $in: [
+                  'owner',
+                  'admin',
+                ],
+              },
+            },
+          ],
+        },
+      },
+      {$pull: {
+        members: {
+          username: usernameToRemove,
+        },
+      }},
+  );
+  await User.updateOne(
+      {username: usernameToRemove},
+      {$pull: {
+        rooms: {
+          roomId,
+        },
+      }},
+  );
+  return;
+}
+
+//Missing status checking
+/**
+ * update a member of a room
+ * @param {String} username
+ * @param {String} roomId
+ * @param {String} usernameToUpdate
+ * @param {String} role
+ */
+async function updateRoomMember(username, roomId, usernameToUpdate, role) {
+  await Room.updateOne(
+      {
+        '_id': roomId,
+        'members': {
+          $in: [
+            {
+              username,
+              role: {
+                $in: [
+                  'owner',
+                  'admin',
+                ],
+              },
+            },
+          ],
+        },
+        'members.username': usernameToUpdate,
+      },
+      {$set: {
+        'members.$.role': role,
+      }},
+  );
+  await User.updateOne(
+      {
+        'username': usernameToUpdate,
+        'rooms.roomId': roomId,
+      },
+      {$set: {
+        'rooms.$.role': role,
+      }},
+  );
+  return;
 }
 
 module.exports = {
@@ -185,5 +420,12 @@ module.exports = {
     checkRefreshToken,
     removeRefreshToken,
     changePassword,
+    getRooms,
+    createRoom,
+    deleteRoom,
+    getRoomMembers,
+    addRoomMember,
+    updateRoomMember,
+    deleteRoomMember,
   },
 };

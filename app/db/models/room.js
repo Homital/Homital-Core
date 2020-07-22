@@ -2,15 +2,10 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const UserSchema = new Schema({
-  username: String,
-  email: String,
-  password: String,
-  email_verified: Boolean,
-  rooms: [
+const RoomSchema = new Schema({
+  members: [
     {
-      name: String,
-      roomId: String,
+      username: String,
       role: {
         type: String,
         enum: [
@@ -23,11 +18,17 @@ const UserSchema = new Schema({
       },
     },
   ],
+  devices: [
+    {
+      deviceId: String,
+      type: String,
+    },
+  ],
 });
 
-const User = mongoose.model('User', UserSchema);
+const Room = mongoose.model('Room', RoomSchema);
 
 module.exports = {
-  User,
-  UserSchema,
+  Room,
+  RoomSchema,
 };
