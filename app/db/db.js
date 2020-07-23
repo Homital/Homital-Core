@@ -603,6 +603,52 @@ async function removeRoomDevice(
   );
 }
 
+/**
+ * Get the status of a device
+ * @param {String} username
+ * @param {String} roomId
+ * @param {String} deviceName
+ * @return {String} status
+ */
+async function getDeviceStatus(
+    username, roomId, deviceName,
+) {
+  let status;
+  Device.findOne(
+      {
+        name: deviceName,
+        roomId,
+      }, (err, device) => {
+        if (err) {
+          console.log(err);
+        }
+        status = device.status;
+      },
+  );
+  return status;
+}
+
+/**
+ * Update the status of a device
+ * @param {String} username
+ * @param {String} roomId
+ * @param {String} deviceName
+ * @param {String} status
+ */
+async function updateDeviceStatus(
+    username, roomId, deviceName, status,
+) {
+  Device.updateOne(
+      {
+        name: deviceName,
+        roomId,
+      },
+      {$set: {
+        status,
+      }},
+  );
+}
+
 module.exports = {
   models: {
     Status: Status,
@@ -628,5 +674,7 @@ module.exports = {
     updateRoomDevice,
     getRoomDevices,
     removeRoomDevice,
+    getDeviceStatus,
+    updateDeviceStatus,
   },
 };

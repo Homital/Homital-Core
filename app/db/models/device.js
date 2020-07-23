@@ -6,7 +6,10 @@ const DeviceSchema = new Schema({
   type: String,
   name: String,
   roomId: String,
-  status: String,
+  status: {
+    type: String,
+    default: 'null',
+  },
 });
 
 const Device = mongoose.model('Device', DeviceSchema);

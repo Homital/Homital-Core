@@ -150,17 +150,17 @@ router.post('/rooms/members', async (req, res) => {
     const opst = await db.functions.addRoomMember(
         username, roomId, newUSer.username, newUSer.role, roomName,
     );
-    if (opst == 1) {
+    if (opst === 1) {
       res.status(403).json({
         error: 'Not authorized',
       });
       return;
-    } else if (opst == 2) {
+    } else if (opst === 2) {
       res.status(500).json({
         error: 'Internal server error',
       });
       return;
-    } else if (opst == 0) {
+    } else if (opst === 0) {
       res.json('success');
       return;
     }
@@ -226,17 +226,17 @@ router.post('/rooms/devices', async (req, res) => {
     const opst = await db.functions.addRoomDevice(
         username, roomId, deviceType, deviceName,
     );
-    if (opst == 1) {
+    if (opst === 1) {
       res.status(403).json({
         error: 'Not authorized',
       });
       return;
-    } else if (opst == 2) {
+    } else if (opst === 2) {
       res.status(500).json({
         error: 'Internal server error',
       });
       return;
-    } else if (opst == 0) {
+    } else if (opst === 0) {
       res.json('success');
       return;
     }
@@ -277,6 +277,41 @@ router.delete('/rooms/devices', async (req, res) => {
     res.status(500).json({
       error: error.toString(),
     });
+  }
+});
+
+router.get('/rooms/devices/operations', async (req, res) => {
+  /*
+  const username = req.user.username;
+  const roomId = req.query.uid;
+  const deviceName = req.query.devicename;
+  */
+  res.status(501).json({
+    error: 'At this point, the client should know' +
+    ' available operations based on the device type',
+  });
+});
+
+router.post('/rooms/devices/operations', async (req, res) => {
+  const username = req.user.username;
+  const roomId = req.query.uid;
+  const deviceName = req.query.devicename;
+  const operation = req.query.operation;
+  const operationBody = req.body;
+  switch (operation) {
+    case 'switch':
+      if (operationBody.switch === 'on') {
+        db.functions.updateDeviceStatus(
+            username, roomId, deviceName, JSON.stringify({power: true}),
+        );
+      } else if (operationBody.switch === 'off') {
+        db.functions.updateDeviceStatus(
+            username, roomId, deviceName, JSON.stringify({power: false}),
+        );
+      }
+      break;
+    default:
+      break;
   }
 });
 
