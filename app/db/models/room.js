@@ -20,7 +20,7 @@ const RoomSchema = new Schema({
   ],
   devices: [
     {
-      deviceId: String,
+      name: String,
       type: String,
     },
   ],

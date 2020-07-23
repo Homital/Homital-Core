@@ -3,6 +3,7 @@ const Status = require('./models/status').Status;
 const User = require('./models/user').User;
 const Token = require('./models/token').Token;
 const Room = require('./models/room').Room;
+const Device = require('./models/device').Device;
 const bcrypt = require('bcrypt');
 
 const dbconnectionstring = process.env.HOMITALDB_CONNECTIONSTRING;
@@ -327,23 +328,32 @@ async function addRoomMember(
  */
 async function getRoomMembers(username, roomId) {
   const members = [];
-  await Room.findOne({username}, (err, room) => {
-    if (err) {
-      console.log(err);
-    }
-    for (const member of room.members) {
-      members.push({
-        username: member.username,
-        role: member.role,
+  await Room.findOne(
+      {
+        _id: roomId,
+        members: {
+          $in: [
+            {username},
+          ],
+        },
+      },
+      (err, room) => {
+        if (err) {
+          console.log(err);
+        }
+        for (const member of room.members) {
+          members.push({
+            username: member.username,
+            role: member.role,
+          });
+        }
       });
-    }
-  });
   return members;
 }
 
-//Missing status checking
+// Missing status checking
 /**
- * delete a member from a room
+ * Delete a member from a room
  * @param {String} username
  * @param {String} roomId
  * @param {String} usernameToRemove
@@ -383,9 +393,9 @@ async function deleteRoomMember(username, roomId, usernameToRemove) {
   return;
 }
 
-//Missing status checking
+// Missing status checking
 /**
- * update a member of a room
+ * Update a member of a room
  * @param {String} username
  * @param {String} roomId
  * @param {String} usernameToUpdate
@@ -426,6 +436,173 @@ async function updateRoomMember(username, roomId, usernameToUpdate, role) {
   return;
 }
 
+/**
+ * Add a new device
+ * @param {String} username
+ * @param {String} roomId
+ * @param {String} deviceType
+ * @param {String} deviceName
+ * @return {Number} Status of operation:
+ * <br>`0` - successful
+ * <br>`1` - unauthorized
+ * <br>`2` - knknown
+ */
+async function addRoomDevice(
+    username, roomId, deviceType, deviceName,
+) {
+  const updateRoomResult = Room.updateOne(
+      {
+        _id: roomId,
+        members: {
+          $in: [
+            {
+              username,
+              role: {
+                $in: [
+                  'owner',
+                  'admin',
+                ],
+              },
+            },
+          ],
+        },
+      },
+      {$push: {
+        devices: {
+          name: deviceName,
+          type: deviceType,
+        },
+      }},
+  );
+  if (!updateRoomResult.n) {
+    return 1;
+  } else if (!updateRoomResult.nModified) {
+    return 2;
+  }
+  const device = new Device(
+      {
+        type: deviceType,
+        name: deviceName,
+        roomId,
+      },
+  );
+  await device.save(async (err, device) => {
+    if (err) {
+      console.log(err);
+    }
+  });
+}
+
+/**
+ * Update a device
+ * @param {String} username
+ * @param {String} roomId
+ * @param {String} deviceName
+ * @param {String} newName
+ */
+async function updateRoomDevice(
+    username, roomId, deviceName, newName,
+) {
+  await Room.updateOne(
+      {
+        '_id': roomId,
+        'members': {
+          $in: [
+            {
+              username,
+              role: {
+                $in: [
+                  'owner',
+                  'admin',
+                ],
+              },
+            },
+          ],
+        },
+        'devices.name': deviceName,
+      },
+      {$set: {
+        'devices.$.name': newName,
+      }},
+  );
+  await Device.updateOne(
+      {
+        name: deviceName,
+        roomId,
+      },
+      {$set: {
+        name: newName,
+      }},
+  );
+}
+
+/**
+ * Get devices in a room
+ * @param {String} username
+ * @param {String} roomId
+ */
+async function getRoomDevices(
+    username, roomId,
+) {
+  const devices = [];
+  await Room.findOne(
+      {
+        _id: roomId,
+        members: {
+          $in: [
+            {username},
+          ],
+        },
+      },
+      (err, room) => {
+        if (err) {
+          console.log(err);
+        }
+        for (const device of room.devices) {
+          devices.push({
+            type: device.type,
+            name: device.name,
+          });
+        }
+      },
+  );
+  return devices;
+}
+
+/**
+ * Remove one device
+ * @param {String} username
+ * @param {String} roomId
+ * @param {String} deviceName
+ */
+async function removeRoomDevice(
+    username, roomId, deviceName,
+) {
+  await Room.updateOne(
+      {
+        _id: roomId,
+        members: {
+          $in: [
+            {
+              username,
+              role: {
+                $in: [
+                  'owner',
+                  'admin',
+                ],
+              },
+            },
+          ],
+        },
+      },
+      {$pull: {
+        devices: {
+          name: deviceName,
+        },
+      }},
+  );
+}
+
 module.exports = {
   models: {
     Status: Status,
@@ -447,5 +624,9 @@ module.exports = {
     addRoomMember,
     updateRoomMember,
     deleteRoomMember,
+    addRoomDevice,
+    updateRoomDevice,
+    getRoomDevices,
+    removeRoomDevice,
   },
 };

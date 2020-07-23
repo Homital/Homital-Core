@@ -203,6 +203,83 @@ router.delete('/rooms/members', async (req, res) => {
   }
 });
 
+router.get('/rooms/devices', async (req, res) => {
+  const username = req.user.username;
+  const roomId = req.query.uid;
+  try {
+    const devices = await db.functions.getRoomDevices(username, roomId);
+    res.json(devices);
+    return;
+  } catch (error) {
+    res.status(500).json({
+      error: error.toString(),
+    });
+  }
+});
+
+router.post('/rooms/devices', async (req, res) => {
+  const username = req.user.username;
+  const roomId = req.query.uid;
+  const deviceType = req.body.type;
+  const deviceName = req.body.name;
+  try {
+    const opst = await db.functions.addRoomDevice(
+        username, roomId, deviceType, deviceName,
+    );
+    if (opst == 1) {
+      res.status(403).json({
+        error: 'Not authorized',
+      });
+      return;
+    } else if (opst == 2) {
+      res.status(500).json({
+        error: 'Internal server error',
+      });
+      return;
+    } else if (opst == 0) {
+      res.json('success');
+      return;
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: error.toString(),
+    });
+  }
+});
+
+router.put('/rooms/devices', async (req, res) => {
+  const username = req.user.username;
+  const roomId = req.query.uid;
+  const oldName = req.body.old_name;
+  const newName = req.body.new_name;
+  try {
+    await db.functions.updateRoomDevice(
+        username, roomId, oldName, newName,
+    );
+    res.json('success');
+    return;
+  } catch (error) {
+    res.status(500).json({
+      error: error.toString(),
+    });
+  }
+});
+
+router.delete('/rooms/devices', async (req, res) => {
+  const username = req.user.username;
+  const roomId = req.query.uid;
+  const deviceName = req.query.devicename;
+  try {
+    await db.functions.removeRoomDevice(username, roomId, deviceName);
+    res.json('success');
+    return;
+  } catch (error) {
+    res.status(500).json({
+      error: error.toString(),
+    });
+  }
+});
+
 /*
 router.get('/:username/rooms', (req, res) => {
   for (const user of users) {
