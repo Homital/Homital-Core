@@ -87,6 +87,7 @@ router.post('/rooms', async (req, res) => {
   const roomName = req.body.name;
   try {
     const roomId = await db.functions.createRoom(username, roomName);
+    console.log(`Hahaha: rid: ${roomId}`);
     res.json({
       room_id: roomId,
     });

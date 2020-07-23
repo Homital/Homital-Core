@@ -31,15 +31,8 @@ db.once('open', function(callback) {
  */
 async function getUserByEmail(email) {
   // todo: get all instead of just one and return an error if got more than one
-  let theUser;
-  await User.findOne({email: email}, (err, user) => {
-    if (err) {
-      console.log(err);
-    }
-    console.log('getUserByEmail:', user);
-    theUser = user;
-  });
-  console.log('getUserByEmail() = ', theUser);
+  const theUser = await User.findOne({email});
+  // console.log('getUserByEmail() = ', theUser);
   return theUser;
 }
 
@@ -50,14 +43,8 @@ async function getUserByEmail(email) {
  */
 async function getUserByUsername(username) {
   // todo: get all instead of just one and return an error if got more than one
-  let theUser;
-  await User.findOne({username}, (err, user) => {
-    if (err) {
-      console.log(err);
-    }
-    theUser = user;
-  });
-  console.log('getUserByUsername() = ', theUser);
+  const theUser = await User.findOne({username});
+  // console.log('getUserByUsername() = ', theUser);
   return theUser;
 }
 
@@ -142,7 +129,7 @@ async function pushRefreshToken(token) {
  * Check if the provided refresh token is valid
  * (will change callback to something better...)
  * @param {String} token - refresh token
- * @param {Function} callback - emmm
+ * @param {Function} callback - emmm (todo: use async/await)
  */
 async function checkRefreshToken(token, callback) {
   await Token.findOne({token: token}, (err, tok) => {
@@ -191,23 +178,18 @@ async function createRoom(username, roomName) {
         ],
       },
   );
-  let roomId;
-  await room.save(async (err, room) => {
-    if (err) {
-      console.log(err);
-    }
-    roomId = room._id;
-    await User.updateOne(
-        {username},
-        {$push: {
-          rooms: {
-            name: roomName,
-            roomId,
-            role: 'owner',
-          },
-        }},
-    );
-  });
+  const rm = await room.save();
+  const roomId = rm._id;
+  await User.updateOne(
+      {username},
+      {$push: {
+        rooms: {
+          name: roomName,
+          roomId,
+          role: 'owner',
+        },
+      }},
+  );
   return roomId;
 }
 
@@ -328,6 +310,7 @@ async function addRoomMember(
  */
 async function getRoomMembers(username, roomId) {
   const members = [];
+  /*
   await Room.findOne(
       {
         _id: roomId,
@@ -348,6 +331,23 @@ async function getRoomMembers(username, roomId) {
           });
         }
       });
+  */
+  const room = await Room.findOne(
+      {
+        _id: roomId,
+        members: {
+          $in: [
+            {username},
+          ],
+        },
+      },
+  );
+  for (const member of room.members) {
+    members.push({
+      username: member.username,
+      role: member.role,
+    });
+  }
   return members;
 }
 
@@ -486,11 +486,7 @@ async function addRoomDevice(
         roomId,
       },
   );
-  await device.save(async (err, device) => {
-    if (err) {
-      console.log(err);
-    }
-  });
+  await device.save();
 }
 
 /**
@@ -545,6 +541,7 @@ async function getRoomDevices(
     username, roomId,
 ) {
   const devices = [];
+  /*
   await Room.findOne(
       {
         _id: roomId,
@@ -566,6 +563,23 @@ async function getRoomDevices(
         }
       },
   );
+  */
+  const room = await Room.findOne(
+      {
+        _id: roomId,
+        members: {
+          $in: [
+            {username},
+          ],
+        },
+      },
+  );
+  for (const device of room.devices) {
+    devices.push({
+      type: device.type,
+      name: device.name,
+    });
+  }
   return devices;
 }
 
@@ -613,16 +627,10 @@ async function removeRoomDevice(
 async function getDeviceStatus(
     username, roomId, deviceName,
 ) {
-  let status;
-  Device.findOne(
+  const status = await Device.findOne(
       {
         name: deviceName,
         roomId,
-      }, (err, device) => {
-        if (err) {
-          console.log(err);
-        }
-        status = device.status;
       },
   );
   return status;
