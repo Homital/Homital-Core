@@ -229,6 +229,25 @@ async function getRooms(username) {
 }
 
 /**
+ * Update the info of one room
+ * @param {String} username
+ * @param {String} roomId
+ * @param {String} newName
+ */
+async function updateRoom(username, roomId, newName) {
+  await User.updateOne(
+      {
+        'username': username,
+        'rooms.roomId': roomId,
+      },
+      {$set: {
+        'rooms.$.name': newName,
+      }},
+  );
+  return;
+}
+
+/**
  * Delete a room
  * @param {String} username
  * @param {String} roomId
@@ -422,6 +441,7 @@ module.exports = {
     changePassword,
     getRooms,
     createRoom,
+    updateRoom,
     deleteRoom,
     getRoomMembers,
     addRoomMember,

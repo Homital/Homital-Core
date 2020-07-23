@@ -1,7 +1,7 @@
 const express = require('express');
 // eslint-disable-next-line new-cap
 const router = express.Router(); // Not my problem :P
-// const db = require('../db/db');
+const db = require('../db/db');
 const utils = require('../utils/utils');
 
 /** Temporary */
@@ -69,32 +69,138 @@ const deviceTypes = [
 
 router.use(utils.authenticateToken);
 
-router.get('/rooms', (req, res) => {
+router.get('/rooms', async (req, res) => {
   const username = req.user.username;
+  try {
+    const rooms = await db.functions.getRooms(username);
+    res.json(rooms);
+  } catch (error) {
+    res.status(500).json({
+      error: error.toString(),
+    });
+    return;
+  }
 });
 
-router.post('/rooms', (req, res) => {
+router.post('/rooms', async (req, res) => {
   const username = req.user.username;
+  const roomName = req.body.name;
+  try {
+    const roomId = await db.functions.createRoom(username, roomName);
+    res.json({
+      room_id: roomId,
+    });
+    return;
+  } catch (error) {
+    res.status(500).json({
+      error: error.toString(),
+    });
+  }
 });
 
-router.delete('/rooms', (req, res) => {
+router.delete('/rooms', async (req, res) => {
   const username = req.user.username;
+  const roomId = req.query.uid;
+  try {
+    await db.functions.deleteRoom(username, roomId);
+    res.json('success');
+    return;
+  } catch (error) {
+    res.status(500).json({
+      error: error.toString(),
+    });
+  }
 });
 
-router.get('/rooms/members', (req, res) => {
+router.put('/rooms', async (req, res) => {
   const username = req.user.username;
+  const roomId = req.query.uid;
+  const newName = req.body.name;
+  try {
+    await db.functions.updateRoom(username, roomId, newName);
+    res.json('success');
+    return;
+  } catch (error) {
+    res.status(500).json({
+      error: error.toString(),
+    });
+  }
 });
 
-router.post('/rooms/members', (req, res) => {
+router.get('/rooms/members', async (req, res) => {
   const username = req.user.username;
+  const roomId = req.query.uid;
+  try {
+    const members = await db.functions.getRoomMembers(username, roomId);
+    res.json(members);
+    return;
+  } catch (error) {
+    res.status(500).json({
+      error: error.toString(),
+    });
+  }
 });
 
-router.put('/rooms/members', (req, res) => {
+router.post('/rooms/members', async (req, res) => {
   const username = req.user.username;
+  const roomId = req.query.uid;
+  const newUSer = req.body;
+  const roomName = req.body.name;
+  try {
+    const opst = await db.functions.addRoomMember(
+        username, roomId, newUSer.username, newUSer.role, roomName,
+    );
+    if (opst == 1) {
+      res.status(403).json({
+        error: 'Not authorized',
+      });
+      return;
+    } else if (opst == 2) {
+      res.status(500).json({
+        error: 'Internal server error',
+      });
+      return;
+    } else if (opst == 0) {
+      res.json('success');
+      return;
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: error.toString(),
+    });
+  }
 });
 
-router.delete('/rooms/members', (req, res) => {
+router.put('/rooms/members', async (req, res) => {
   const username = req.user.username;
+  const roomId = req.query.uid;
+  const theUser = req.body;
+  try {
+    await db.functions.updateRoomMember(
+        username, roomId, theUser.username, theUser.role,
+    );
+    res.json('success');
+    return;
+  } catch (error) {
+    res.status(500).json({
+      error: error.toString(),
+    });
+  }
+});
+
+router.delete('/rooms/members', async (req, res) => {
+  const username = req.user.username;
+  const roomId = req.query.uid;
+  const usernameTBD = req.query.username;
+  try {
+    await db.functions.deleteRoomMember(username, roomId, usernameTBD);
+    res.json('success');
+    return;
+  } catch (error) {
+    res.status(500).json({
+      error: error.toString(),
+    });
+  }
 });
 
 /*
