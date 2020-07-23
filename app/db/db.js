@@ -83,7 +83,8 @@ async function registerUser(username, email, password) {
  * @return {number} statusCode
  */
 async function changePassword(email, password) {
-  const res = await User.updateOne({email: email}, {password: password});
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const res = await User.updateOne({email: email}, {password: hashedPassword});
   if (res.n) {
     if (res.nModified) {
       return 200;
