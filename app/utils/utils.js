@@ -93,8 +93,7 @@ function generateOTP(email) {
  * @return {boolean} validation result
  */
 function testOTP(email, otp) {
-  return true;
-  /*
+  // return true;
   console.log(OTPList);
   let res = false;
   OTPList.forEach((x) => {
@@ -106,7 +105,6 @@ function testOTP(email, otp) {
   });
   removeExpiredOTP();
   return res;
-  */
 }
 
 /**
