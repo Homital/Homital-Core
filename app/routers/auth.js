@@ -175,7 +175,7 @@ router.post('/user/login', async (req, res, next) => { // look up the user in db
 // Following doc
 router.post('/user/token', (req, res) => {
   const refreshToken = req.body.refresh_token;
-  if (refreshToken === null) {
+  if (!refreshToken) {
     res.status(400).json({error: 'refresh_token not provided'});
     return;
   }
