@@ -103,10 +103,10 @@ async function changePassword(email, password) {
 async function checkExistance(username, email) {
   let errorMessage;
   // the following 2 async functions should run in parallel..
-  if (await getUserByUsername(username) != null) {
+  if (await getUserByUsername(username) !== null) {
     // username already exists
     errorMessage = 'username already registered';
-  } else if (await getUserByEmail(email) != null) {
+  } else if (await getUserByEmail(email) !== null) {
     // email already registered
     errorMessage = 'email already registered';
   }

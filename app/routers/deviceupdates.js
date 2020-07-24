@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:deviceType', (req, res) => {
-  if (req.params.deviceType == 'homital-l0') {
+  if (req.params.deviceType === 'homital-l0') {
     res.json({
       success: true,
       versions: ['v0.0'],
@@ -24,8 +24,8 @@ router.get('/:deviceType', (req, res) => {
 });
 
 router.get('/:deviceType/:version', (req, res) => {
-  if (req.params.deviceType == 'homital-l0') {
-    if (req.params.version == 'v0.0') {
+  if (req.params.deviceType === 'homital-l0') {
+    if (req.params.version === 'v0.0') {
       res.json({
         success: true,
         code: 'print("Err...")\nprint("Did you just update to version 0.0?")',

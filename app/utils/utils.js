@@ -98,7 +98,7 @@ function testOTP(email, otp) {
   let res = false;
   OTPList.forEach((x) => {
     if (x.email === email) {
-      if (x.otp == otp) {
+      if (x.otp === otp) {
         res = true;
       }
     }
