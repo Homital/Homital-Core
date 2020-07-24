@@ -263,17 +263,17 @@ async function addRoomMember(
       {
         _id: roomId,
         members: {
-          $in: [
-            {
-              username,
-              role: {
+          $elemMatch: {
+            username,
+            role: {
+              $elemMatch: {
                 $in: [
                   'owner',
                   'admin',
                 ],
               },
             },
-          ],
+          },
         },
       },
       {$push: {
@@ -311,35 +311,11 @@ async function addRoomMember(
  */
 async function getRoomMembers(username, roomId) {
   const members = [];
-  /*
-  await Room.findOne(
-      {
-        _id: roomId,
-        members: {
-          $in: [
-            {username},
-          ],
-        },
-      },
-      (err, room) => {
-        if (err) {
-          console.log(err);
-        }
-        for (const member of room.members) {
-          members.push({
-            username: member.username,
-            role: member.role,
-          });
-        }
-      });
-  */
   const room = await Room.findOne(
       {
         _id: roomId,
         members: {
-          $in: [
-            {username},
-          ],
+          $elemMatch: {username},
         },
       },
   );
@@ -364,17 +340,17 @@ async function deleteRoomMember(username, roomId, usernameToRemove) {
       {
         _id: roomId,
         members: {
-          $in: [
-            {
-              username,
-              role: {
+          $elemMatch: {
+            username,
+            role: {
+              $elemMatch: {
                 $in: [
                   'owner',
                   'admin',
                 ],
               },
             },
-          ],
+          },
         },
       },
       {$pull: {
@@ -407,17 +383,17 @@ async function updateRoomMember(username, roomId, usernameToUpdate, role) {
       {
         '_id': roomId,
         'members': {
-          $in: [
-            {
-              username,
-              role: {
+          $elemMatch: {
+            username,
+            role: {
+              $elemMatch: {
                 $in: [
                   'owner',
                   'admin',
                 ],
               },
             },
-          ],
+          },
         },
         'members.username': usernameToUpdate,
       },
@@ -455,17 +431,15 @@ async function addRoomDevice(
       {
         _id: roomId,
         members: {
-          $in: [
-            {
-              username,
-              role: {
-                $in: [
-                  'owner',
-                  'admin',
-                ],
-              },
+          $elemMatch: {
+            username,
+            role: {
+              $in: [
+                'owner',
+                'admin',
+              ],
             },
-          ],
+          },
         },
       },
       {$push: {
@@ -504,17 +478,15 @@ async function updateRoomDevice(
       {
         '_id': roomId,
         'members': {
-          $in: [
-            {
-              username,
-              role: {
-                $in: [
-                  'owner',
-                  'admin',
-                ],
-              },
+          $elemMatch: {
+            username,
+            role: {
+              $in: [
+                'owner',
+                'admin',
+              ],
             },
-          ],
+          },
         },
         'devices.name': deviceName,
       },
@@ -542,36 +514,11 @@ async function getRoomDevices(
     username, roomId,
 ) {
   const devices = [];
-  /*
-  await Room.findOne(
-      {
-        _id: roomId,
-        members: {
-          $in: [
-            {username},
-          ],
-        },
-      },
-      (err, room) => {
-        if (err) {
-          console.log(err);
-        }
-        for (const device of room.devices) {
-          devices.push({
-            type: device.type,
-            name: device.name,
-          });
-        }
-      },
-  );
-  */
   const room = await Room.findOne(
       {
         _id: roomId,
         members: {
-          $in: [
-            {username},
-          ],
+          $elemMatch: {username},
         },
       },
   );
@@ -597,17 +544,15 @@ async function removeRoomDevice(
       {
         _id: roomId,
         members: {
-          $in: [
-            {
-              username,
-              role: {
-                $in: [
-                  'owner',
-                  'admin',
-                ],
-              },
+          $elemMatch: {
+            username,
+            role: {
+              $in: [
+                'owner',
+                'admin',
+              ],
             },
-          ],
+          },
         },
       },
       {$pull: {
