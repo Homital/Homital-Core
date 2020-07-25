@@ -441,7 +441,7 @@ async function updateRoomMember(username, roomId, usernameToUpdate, role) {
 async function addRoomDevice(
     username, roomId, deviceType, deviceName,
 ) {
-  const updateRoomResult = Room.updateOne(
+  const updateRoomResult = await Room.updateOne(
       {
         _id: roomId,
         members: {
@@ -464,6 +464,7 @@ async function addRoomDevice(
       }},
   );
   if (!updateRoomResult.n) {
+    console.log('updateRoomResult.n:', updateRoomResult.n);
     return 1;
   } else if (!updateRoomResult.nModified) {
     return 2;
@@ -476,6 +477,7 @@ async function addRoomDevice(
       },
   );
   await device.save();
+  return 0;
 }
 
 /**
