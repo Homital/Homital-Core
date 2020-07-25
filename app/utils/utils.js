@@ -24,35 +24,6 @@ function authenticateToken(req, res, next) {
 }
 
 /**
- * to be changed to jwt
- * maybe the middleware can be returned by another function
- * for more detailed authorization
- * or append the device's props to request object
- * @param {Request} req - request
- * @param {Response} res - response
- * @param {RequestHandler} next - next middleware to be called // import type!
- */
-function authenticateDevice(req, res, next) {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
-  if (token === null) {
-    res.sendStatus(401);
-    return;
-  }
-  if (token === 'homital-l0') {
-    req.deviceid = 'qwertyuiop';
-    next();
-    return;
-  } else {
-    res.status(403).json({
-      success: false, error: 'authentication token not recognized',
-    },
-    );
-    return;
-  }
-}
-
-/**
  * Validate email address
  * @param {string} email
  * @return {boolean} isValid
@@ -116,7 +87,6 @@ function removeExpiredOTP() {
 
 module.exports = {
   authenticateToken,
-  authenticateDevice,
   validateEmail,
   generateOTP,
   testOTP,

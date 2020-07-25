@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Status = require('./models/status').Status;
 const User = require('./models/user').User;
 const Token = require('./models/token').Token;
 const Room = require('./models/room').Room;
@@ -269,6 +268,9 @@ async function deleteRoom(username, roomId) {
       {username},
       {$pull: {rooms: {roomId}}},
   );
+  await Room.findOneAndDelete(
+      {_id: roomId},
+  );
   return;
 }
 
@@ -492,6 +494,7 @@ async function addRoomDevice(
         type: deviceType,
         name: deviceName,
         roomId,
+        status: JSON.stringify({power: false}),
       },
   );
   await device.save();
@@ -588,25 +591,29 @@ async function removeRoomDevice(
         },
       }},
   );
+  await Device.findOneAndDelete({
+    name: deviceName,
+    roomId,
+  });
 }
 
 /**
  * Get the status of a device
- * @param {String} username
  * @param {String} roomId
  * @param {String} deviceName
- * @return {String} status
+ * @return {Object} status
  */
 async function getDeviceStatus(
-    username, roomId, deviceName,
+    roomId, deviceName,
 ) {
-  const status = await Device.findOne(
+  const deviceDoc = await Device.findOne(
       {
         name: deviceName,
         roomId,
       },
   );
-  return status;
+  console.log(JSON.parse(deviceDoc.toObject().status));
+  return JSON.parse(deviceDoc.toObject().status);
 }
 
 /**
@@ -619,7 +626,8 @@ async function getDeviceStatus(
 async function updateDeviceStatus(
     username, roomId, deviceName, status,
 ) {
-  Device.updateOne(
+  console.log('new status: ', status);
+  const uprs = await Device.updateOne(
       {
         name: deviceName,
         roomId,
@@ -628,11 +636,12 @@ async function updateDeviceStatus(
         status,
       }},
   );
+  console.log('n: ', uprs.n);
+  console.log('nMdf: ', uprs.nModified);
 }
 
 module.exports = {
   models: {
-    Status: Status,
     User: User,
   },
   functions: {
