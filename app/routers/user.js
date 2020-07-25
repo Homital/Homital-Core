@@ -148,7 +148,7 @@ router.post('/rooms/members', async (req, res) => {
   const newUSer = req.body;
   const roomName = req.body.name;
   try {
-    if (await db.functions.getUserByUsername(newUSer.username)) {
+    if (await db.functions.memberExists(newUSer.username, roomId)) {
       res.status(409).json({
         error: 'member exists',
       });
@@ -284,6 +284,12 @@ router.put('/rooms/devices', async (req, res) => {
   const oldName = req.body.old_name;
   const newName = req.body.new_name;
   try {
+    if (!await db.functions.isPrivileged(username, roomId)) {
+      res.status(403).json({
+        error: 'Not authorized',
+      });
+      return;
+    }
     await db.functions.updateRoomDevice(
         username, roomId, oldName, newName,
     );

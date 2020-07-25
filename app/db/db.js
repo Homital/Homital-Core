@@ -166,6 +166,7 @@ function removeRefreshToken(token, callback) {
  * Check if the given user is the owner or an admin of the given room
  * @param {String} username
  * @param {String} roomId
+ * @return {Boolean} isPrivileged?
  */
 async function isPrivileged(username, roomId) {
   const rm = await Room.findOne({
@@ -269,6 +270,23 @@ async function deleteRoom(username, roomId) {
       {$pull: {rooms: {roomId}}},
   );
   return;
+}
+
+/**
+ * Check if a member exists in a room
+ * @param {String} username
+ * @param {String} roomId
+ * @return {Number} number matched
+ */
+async function memberExists(username, roomId) {
+  const room = await Room.find({
+    _id: roomId,
+    members: {
+      $elemMatch: {username},
+    },
+  });
+  console.log('n = ', room.length);
+  return room.length;
 }
 
 /**
@@ -493,18 +511,11 @@ async function updateRoomDevice(
   await Room.updateOne(
       {
         '_id': roomId,
-        'members': {
+        'devices': {
           $elemMatch: {
-            username,
-            role: {
-              $in: [
-                'owner',
-                'admin',
-              ],
-            },
+            name: deviceName,
           },
         },
-        'devices.name': deviceName,
       },
       {$set: {
         'devices.$.name': newName,
@@ -647,5 +658,6 @@ module.exports = {
     getDeviceStatus,
     updateDeviceStatus,
     isPrivileged,
+    memberExists,
   },
 };
