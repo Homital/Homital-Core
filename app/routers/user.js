@@ -148,13 +148,11 @@ router.post('/rooms/members', async (req, res) => {
   const newUSer = req.body;
   const roomName = req.body.name;
   try {
-    /*
-    if (!await db.functions.isPrivileged(username, roomId)) {
-      res.status(403).json({
-        error: 'Not authorized',
+    if (await db.functions.getUserByUsername(newUSer.username)) {
+      res.status(409).json({
+        error: 'member exists',
       });
-      return;
-    }*/
+    }
     if (!await db.functions.getUserByUsername(newUSer.username)) {
       res.status(404).json({
         error: 'user not found',
