@@ -163,6 +163,33 @@ function removeRefreshToken(token, callback) {
 }
 
 /**
+ * Check if the given user is the owner or an admin of the given room
+ * @param {String} username
+ * @param {String} roomId
+ */
+async function isPrivileged(username, roomId) {
+  const rm = await Room.findOne({
+    _id: roomId,
+    members: {
+      $elemMatch: {
+        username,
+        role: {
+          $in: [
+            'owner',
+            'admin',
+          ],
+        },
+      },
+    },
+  });
+  if (rm) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+/**
  * Create a  new room
  * @param {String} username
  * @param {String} roomName
@@ -266,12 +293,10 @@ async function addRoomMember(
           $elemMatch: {
             username,
             role: {
-              $elemMatch: {
-                $in: [
-                  'owner',
-                  'admin',
-                ],
-              },
+              $in: [
+                'owner',
+                'admin',
+              ],
             },
           },
         },
@@ -298,7 +323,7 @@ async function addRoomMember(
         },
       }},
   );
-  if (updateUserResult) {
+  if (updateUserResult.n) {
     return 0;
   }
   return 2;
@@ -343,12 +368,10 @@ async function deleteRoomMember(username, roomId, usernameToRemove) {
           $elemMatch: {
             username,
             role: {
-              $elemMatch: {
-                $in: [
-                  'owner',
-                  'admin',
-                ],
-              },
+              $in: [
+                'owner',
+                'admin',
+              ],
             },
           },
         },
@@ -383,19 +406,8 @@ async function updateRoomMember(username, roomId, usernameToUpdate, role) {
       {
         '_id': roomId,
         'members': {
-          $elemMatch: {
-            username,
-            role: {
-              $elemMatch: {
-                $in: [
-                  'owner',
-                  'admin',
-                ],
-              },
-            },
-          },
+          $elemMatch: {username: usernameToUpdate},
         },
-        'members.username': usernameToUpdate,
       },
       {$set: {
         'members.$.role': role,
@@ -404,7 +416,9 @@ async function updateRoomMember(username, roomId, usernameToUpdate, role) {
   await User.updateOne(
       {
         'username': usernameToUpdate,
-        'rooms.roomId': roomId,
+        'rooms': {
+          $elemMatch: {roomId},
+        },
       },
       {$set: {
         'rooms.$.role': role,
@@ -630,5 +644,6 @@ module.exports = {
     removeRoomDevice,
     getDeviceStatus,
     updateDeviceStatus,
+    isPrivileged,
   },
 };

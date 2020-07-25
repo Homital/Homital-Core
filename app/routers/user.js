@@ -148,7 +148,14 @@ router.post('/rooms/members', async (req, res) => {
   const newUSer = req.body;
   const roomName = req.body.name;
   try {
-    if (await db.functions.getUserByUsername(newUSer.username)) {
+    /*
+    if (!await db.functions.isPrivileged(username, roomId)) {
+      res.status(403).json({
+        error: 'Not authorized',
+      });
+      return;
+    }*/
+    if (!await db.functions.getUserByUsername(newUSer.username)) {
       res.status(404).json({
         error: 'user not found',
       });
@@ -183,6 +190,12 @@ router.put('/rooms/members', async (req, res) => {
   const roomId = req.query.uid;
   const theUser = req.body;
   try {
+    if (!await db.functions.isPrivileged(username, roomId)) {
+      res.status(403).json({
+        error: 'Not authorized',
+      });
+      return;
+    }
     await db.functions.updateRoomMember(
         username, roomId, theUser.username, theUser.role,
     );
@@ -200,6 +213,12 @@ router.delete('/rooms/members', async (req, res) => {
   const roomId = req.query.uid;
   const usernameTBD = req.query.username;
   try {
+    if (!await db.functions.isPrivileged(username, roomId)) {
+      res.status(403).json({
+        error: 'Not authorized',
+      });
+      return;
+    }
     await db.functions.deleteRoomMember(username, roomId, usernameTBD);
     res.json('success');
     return;
