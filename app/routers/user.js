@@ -148,6 +148,12 @@ router.post('/rooms/members', async (req, res) => {
   const newUSer = req.body;
   const roomName = req.body.name;
   try {
+    if (await db.functions.getUserByUsername(newUSer.username)) {
+      res.status(404).json({
+        error: 'user not found',
+      });
+      return;
+    }
     const opst = await db.functions.addRoomMember(
         username, roomId, newUSer.username, newUSer.role, roomName,
     );

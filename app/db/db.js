@@ -103,10 +103,10 @@ async function changePassword(email, password) {
 async function checkExistance(username, email) {
   let errorMessage;
   // the following 2 async functions should run in parallel..
-  if (await getUserByUsername(username) !== null) {
+  if (await getUserByUsername(username)) {
     // username already exists
     errorMessage = 'username already registered';
-  } else if (await getUserByEmail(email) !== null) {
+  } else if (await getUserByEmail(email)) {
     // email already registered
     errorMessage = 'email already registered';
   }
@@ -254,7 +254,7 @@ async function deleteRoom(username, roomId) {
  * @return {Number} Status of operation:
  * <br>`0` - successful
  * <br>`1` - unauthorized
- * <br>`2` - knknown
+ * <br>`2` - unknown
  */
 async function addRoomMember(
     username, roomId, newMemberUsername, role, roomName,
