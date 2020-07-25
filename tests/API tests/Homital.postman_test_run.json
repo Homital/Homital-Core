@@ -1,0 +1,1690 @@
+{
+	"id": "66a855e5-12df-4c04-9604-3634f4763b18",
+	"name": "Homital",
+	"timestamp": "2020-07-25T15:14:05.383Z",
+	"collection_id": "a1fa834d-4c1e-4a4c-b68e-ca2362bb42fb",
+	"folder_id": 0,
+	"environment_id": "58175fb4-621b-4ac8-91e9-8eeeb9dfe131",
+	"totalPass": 88,
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "3a72e9c6-8a52-4ae1-b3b8-dc68705e2efa",
+			"name": "getotp (don't provide email)",
+			"url": "http://homital.ml:2333/api/auth/user/getotp",
+			"time": 719,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"check status 400": true,
+				"check response error": true
+			},
+			"testPassFailCounts": {
+				"check status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response error": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				719
+			],
+			"allTests": [
+				{
+					"check status 400": true,
+					"check response error": true
+				}
+			]
+		},
+		{
+			"id": "25ff1358-0b2b-4c4a-a676-beea429c0ab1",
+			"name": "register (email registered)",
+			"url": "http://homital.ml:2333/api/auth/user/register",
+			"time": 510,
+			"responseCode": {
+				"code": 500,
+				"name": "Internal Server Error"
+			},
+			"tests": {
+				"check status 500": true,
+				"check response error": true
+			},
+			"testPassFailCounts": {
+				"check status 500": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response error": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				510
+			],
+			"allTests": [
+				{
+					"check status 500": true,
+					"check response error": true
+				}
+			]
+		},
+		{
+			"id": "99c014b8-f7a9-4104-b603-d9dc2a4031b9",
+			"name": "login by username without username",
+			"url": "http://homital.ml:2333/api/auth/user/login?by=username",
+			"time": 1100,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"check status 400": true,
+				"check response error": true
+			},
+			"testPassFailCounts": {
+				"check status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response error": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1100
+			],
+			"allTests": [
+				{
+					"check status 400": true,
+					"check response error": true
+				}
+			]
+		},
+		{
+			"id": "a01f47e0-345f-4915-9e73-a8d3ee1fbcb9",
+			"name": "login by email without email",
+			"url": "http://homital.ml:2333/api/auth/user/login?by=email",
+			"time": 357,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"check status 400": true,
+				"check response error": true
+			},
+			"testPassFailCounts": {
+				"check status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response error": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				357
+			],
+			"allTests": [
+				{
+					"check status 400": true,
+					"check response error": true
+				}
+			]
+		},
+		{
+			"id": "d96b3200-e77f-45a4-8aca-55fb90897c21",
+			"name": "login by randommtd",
+			"url": "http://homital.ml:2333/api/auth/user/login?by=1595690051091",
+			"time": 358,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"check status 501": true,
+				"check response error": true
+			},
+			"testPassFailCounts": {
+				"check status 501": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response error": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				358
+			],
+			"allTests": [
+				{
+					"check status 501": true,
+					"check response error": true
+				}
+			]
+		},
+		{
+			"id": "0c23f504-c8f0-42b3-9c7a-7187bcf09c65",
+			"name": "login by non-existent username",
+			"url": "http://homital.ml:2333/api/auth/user/login?by=username",
+			"time": 421,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"check status 404": true,
+				"check response error": true
+			},
+			"testPassFailCounts": {
+				"check status 404": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response error": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				421
+			],
+			"allTests": [
+				{
+					"check status 404": true,
+					"check response error": true
+				}
+			]
+		},
+		{
+			"id": "b20ec404-e3a7-4087-8755-00f18c7bb431",
+			"name": "login by non-existent email",
+			"url": "http://homital.ml:2333/api/auth/user/login?by=email",
+			"time": 425,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"check status 404": true,
+				"check response error": true
+			},
+			"testPassFailCounts": {
+				"check status 404": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response error": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				425
+			],
+			"allTests": [
+				{
+					"check status 404": true,
+					"check response error": true
+				}
+			]
+		},
+		{
+			"id": "a5cfa410-114f-452b-a039-539b77a39d2c",
+			"name": "login with wrong password",
+			"url": "http://homital.ml:2333/api/auth/user/login?by=username",
+			"time": 2097,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {
+				"check status 403": true,
+				"check response error": true
+			},
+			"testPassFailCounts": {
+				"check status 403": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response error": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2097
+			],
+			"allTests": [
+				{
+					"check status 403": true,
+					"check response error": true
+				}
+			]
+		},
+		{
+			"id": "24c41ee0-903a-4ab1-a448-0dc0cc66ab39",
+			"name": "login by username",
+			"url": "http://homital.ml:2333/api/auth/user/login?by=username",
+			"time": 650,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"check status 200": true,
+				"check response": true
+			},
+			"testPassFailCounts": {
+				"check status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				650
+			],
+			"allTests": [
+				{
+					"check status 200": true,
+					"check response": true
+				}
+			]
+		},
+		{
+			"id": "fe12efb9-28fc-41ba-9728-18af07160210",
+			"name": "get access token (don't provide refresh token)",
+			"url": "http://homital.ml:2333/api/auth/user/token",
+			"time": 363,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"check status 400": true,
+				"check response error": true
+			},
+			"testPassFailCounts": {
+				"check status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response error": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				363
+			],
+			"allTests": [
+				{
+					"check status 400": true,
+					"check response error": true
+				}
+			]
+		},
+		{
+			"id": "f0576abf-bbfb-4fcb-b4b2-0b08c2e1bcfc",
+			"name": "get access token with non-existent refresh token",
+			"url": "http://homital.ml:2333/api/auth/user/token",
+			"time": 1115,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"check status 404": true,
+				"check response error": true
+			},
+			"testPassFailCounts": {
+				"check status 404": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response error": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1115
+			],
+			"allTests": [
+				{
+					"check status 404": true,
+					"check response error": true
+				}
+			]
+		},
+		{
+			"id": "85ea4f92-f6aa-4631-8e33-5b0f3c464213",
+			"name": "get access token the correct way",
+			"url": "http://homital.ml:2333/api/auth/user/token",
+			"time": 438,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"check status 200": true,
+				"check response": true
+			},
+			"testPassFailCounts": {
+				"check status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				438
+			],
+			"allTests": [
+				{
+					"check status 200": true,
+					"check response": true
+				}
+			]
+		},
+		{
+			"id": "9175ed48-bc63-4116-939a-81f8f138a45a",
+			"name": "check pre-existent rooms",
+			"url": "http://homital.ml:2333/api/user/rooms",
+			"time": 430,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"check status 200": true,
+				"check response room id name": true
+			},
+			"testPassFailCounts": {
+				"check status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response room id name": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				430
+			],
+			"allTests": [
+				{
+					"check status 200": true,
+					"check response room id name": true
+				}
+			]
+		},
+		{
+			"id": "a86554d0-1e2e-4a9f-a8a7-e1ad6270b4b7",
+			"name": "create room",
+			"url": "http://homital.ml:2333/api/user/rooms",
+			"time": 520,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"check status 200": true,
+				"check response room_id": true
+			},
+			"testPassFailCounts": {
+				"check status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response room_id": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				520
+			],
+			"allTests": [
+				{
+					"check status 200": true,
+					"check response room_id": true
+				}
+			]
+		},
+		{
+			"id": "f2796c8d-6dc4-4d96-9caa-5925ec21bcf5",
+			"name": "check created room",
+			"url": "http://homital.ml:2333/api/user/rooms",
+			"time": 432,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"check status 200": true,
+				"check response room id name": true
+			},
+			"testPassFailCounts": {
+				"check status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response room id name": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				432
+			],
+			"allTests": [
+				{
+					"check status 200": true,
+					"check response room id name": true
+				}
+			]
+		},
+		{
+			"id": "b0cf427a-55df-49ba-88bf-28fbe2ecb40b",
+			"name": "update room",
+			"url": "http://homital.ml:2333/api/user/rooms?uid=5f1c4c4e360ff438a35d204a",
+			"time": 440,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"check status 200": true,
+				"check response success": true
+			},
+			"testPassFailCounts": {
+				"check status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response success": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				440
+			],
+			"allTests": [
+				{
+					"check status 200": true,
+					"check response success": true
+				}
+			]
+		},
+		{
+			"id": "709868a4-091c-439d-8a25-e261a18c447c",
+			"name": "check updated room",
+			"url": "http://homital.ml:2333/api/user/rooms",
+			"time": 440,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"check status 200": true,
+				"check response room id name": true
+			},
+			"testPassFailCounts": {
+				"check status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response room id name": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				440
+			],
+			"allTests": [
+				{
+					"check status 200": true,
+					"check response room id name": true
+				}
+			]
+		},
+		{
+			"id": "1a5a8e00-01b6-41c7-af59-59f6d03cf593",
+			"name": "check pre-existent room members",
+			"url": "http://homital.ml:2333/api/user/rooms/members?uid=5f1c4c4e360ff438a35d204a",
+			"time": 2878,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"check status 200": true,
+				"check response room id name": true
+			},
+			"testPassFailCounts": {
+				"check status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response room id name": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2878
+			],
+			"allTests": [
+				{
+					"check status 200": true,
+					"check response room id name": true
+				}
+			]
+		},
+		{
+			"id": "c13aa975-ca25-4572-97fe-3b8bb2c8aae7",
+			"name": "add nonexistent room member",
+			"url": "http://homital.ml:2333/api/user/rooms/members?uid=5f1c4c4e360ff438a35d204a",
+			"time": 499,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"check status 404": true,
+				"check response error": true
+			},
+			"testPassFailCounts": {
+				"check status 404": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response error": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				499
+			],
+			"allTests": [
+				{
+					"check status 404": true,
+					"check response error": true
+				}
+			]
+		},
+		{
+			"id": "85da548f-6f59-4be7-8117-d4135c642db1",
+			"name": "add room member",
+			"url": "http://homital.ml:2333/api/user/rooms/members?uid=5f1c4c4e360ff438a35d204a",
+			"time": 770,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"check status 200": true,
+				"check response success": true
+			},
+			"testPassFailCounts": {
+				"check status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response success": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				770
+			],
+			"allTests": [
+				{
+					"check status 200": true,
+					"check response success": true
+				}
+			]
+		},
+		{
+			"id": "cbacdf30-ae18-4c6f-9e29-bd2dffc7f491",
+			"name": "add duplicated room member",
+			"url": "http://homital.ml:2333/api/user/rooms/members?uid=5f1c4c4e360ff438a35d204a",
+			"time": 1030,
+			"responseCode": {
+				"code": 409,
+				"name": "Conflict"
+			},
+			"tests": {
+				"check status 409": true,
+				"check response error": true
+			},
+			"testPassFailCounts": {
+				"check status 409": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response error": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1030
+			],
+			"allTests": [
+				{
+					"check status 409": true,
+					"check response error": true
+				}
+			]
+		},
+		{
+			"id": "49e8854b-b691-4487-8735-96bed3cefe84",
+			"name": "check added room member",
+			"url": "http://homital.ml:2333/api/user/rooms/members?uid=5f1c4c4e360ff438a35d204a",
+			"time": 438,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"check status 200": true,
+				"check response room id name": true
+			},
+			"testPassFailCounts": {
+				"check status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response room id name": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				438
+			],
+			"allTests": [
+				{
+					"check status 200": true,
+					"check response room id name": true
+				}
+			]
+		},
+		{
+			"id": "b7ab61d6-9bc8-4918-adeb-19148b6248b6",
+			"name": "update room member",
+			"url": "http://homital.ml:2333/api/user/rooms/members?uid=5f1c4c4e360ff438a35d204a",
+			"time": 1181,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"check status 200": true,
+				"check response success": true
+			},
+			"testPassFailCounts": {
+				"check status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response success": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1181
+			],
+			"allTests": [
+				{
+					"check status 200": true,
+					"check response success": true
+				}
+			]
+		},
+		{
+			"id": "a22245fb-2c48-4972-ab32-b79d22298f9b",
+			"name": "check updated room member",
+			"url": "http://homital.ml:2333/api/user/rooms/members?uid=5f1c4c4e360ff438a35d204a",
+			"time": 1029,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"check status 200": true,
+				"check response room id name": true
+			},
+			"testPassFailCounts": {
+				"check status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response room id name": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1029
+			],
+			"allTests": [
+				{
+					"check status 200": true,
+					"check response room id name": true
+				}
+			]
+		},
+		{
+			"id": "abe0e0bf-962c-405c-8933-558ed12413db",
+			"name": "check pre-existent room devices",
+			"url": "http://homital.ml:2333/api/user/rooms/devices?uid=5f1c4c4e360ff438a35d204a",
+			"time": 458,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"check status 200": true,
+				"check response room id name": true
+			},
+			"testPassFailCounts": {
+				"check status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response room id name": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				458
+			],
+			"allTests": [
+				{
+					"check status 200": true,
+					"check response room id name": true
+				}
+			]
+		},
+		{
+			"id": "d6022a95-588b-40c7-be8e-b7ff68983807",
+			"name": "add unsupported device",
+			"url": "http://homital.ml:2333/api/user/rooms/devices?uid=5f1c4c4e360ff438a35d204a",
+			"time": 361,
+			"responseCode": {
+				"code": 406,
+				"name": "Not Acceptable"
+			},
+			"tests": {
+				"check status 406": true,
+				"check response error": true
+			},
+			"testPassFailCounts": {
+				"check status 406": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response error": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				361
+			],
+			"allTests": [
+				{
+					"check status 406": true,
+					"check response error": true
+				}
+			]
+		},
+		{
+			"id": "9cba7bca-3c45-4fae-9803-81f1650226a8",
+			"name": "add room device",
+			"url": "http://homital.ml:2333/api/user/rooms/devices?uid=5f1c4c4e360ff438a35d204a",
+			"time": 640,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"check status 200": true,
+				"check response success": true
+			},
+			"testPassFailCounts": {
+				"check status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response success": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				640
+			],
+			"allTests": [
+				{
+					"check status 200": true,
+					"check response success": true
+				}
+			]
+		},
+		{
+			"id": "8c833d43-1eb2-4374-8bf4-f1969f3fc826",
+			"name": "check added device",
+			"url": "http://homital.ml:2333/api/user/rooms/devices?uid=5f1c4c4e360ff438a35d204a",
+			"time": 426,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"check status 200": true,
+				"check response room id name": true
+			},
+			"testPassFailCounts": {
+				"check status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response room id name": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				426
+			],
+			"allTests": [
+				{
+					"check status 200": true,
+					"check response room id name": true
+				}
+			]
+		},
+		{
+			"id": "03e9f0f1-b825-4704-9d06-d71973adb9cb",
+			"name": "update room device",
+			"url": "http://homital.ml:2333/api/user/rooms/devices?uid=5f1c4c4e360ff438a35d204a",
+			"time": 573,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"check status 200": true,
+				"check response success": true
+			},
+			"testPassFailCounts": {
+				"check status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response success": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				573
+			],
+			"allTests": [
+				{
+					"check status 200": true,
+					"check response success": true
+				}
+			]
+		},
+		{
+			"id": "99512085-a1c7-4baa-8c08-a76b0f8dda5e",
+			"name": "check updated device",
+			"url": "http://homital.ml:2333/api/user/rooms/devices?uid=5f1c4c4e360ff438a35d204a",
+			"time": 424,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"check status 200": true,
+				"check response room id name": true
+			},
+			"testPassFailCounts": {
+				"check status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response room id name": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				424
+			],
+			"allTests": [
+				{
+					"check status 200": true,
+					"check response room id name": true
+				}
+			]
+		},
+		{
+			"id": "06d24f85-3df6-4ef9-b25f-c47387d77f2e",
+			"name": "~~~这是一条分割线~~~",
+			"url": "http://ip-api.com/line",
+			"time": 361,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				361
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "e442b989-f2dc-4f8b-9da0-f6f71f6147c9",
+			"name": "get operations",
+			"url": "http://homital.ml:2333/api/user/rooms/devices/operations",
+			"time": 368,
+			"responseCode": {
+				"code": 501,
+				"name": "Not Implemented"
+			},
+			"tests": {
+				"check status 501": true,
+				"check response error": true
+			},
+			"testPassFailCounts": {
+				"check status 501": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response error": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				368
+			],
+			"allTests": [
+				{
+					"check status 501": true,
+					"check response error": true
+				}
+			]
+		},
+		{
+			"id": "2ea91889-fdbc-4e3c-894b-e5ef79d5f5ac",
+			"name": "check status0",
+			"url": "http://homital.ml:2333/api/device/status?uid=5f1c4c4e360ff438a35d204a&devicename=Device10086",
+			"time": 1036,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"check status 200": true,
+				"check response": true
+			},
+			"testPassFailCounts": {
+				"check status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1036
+			],
+			"allTests": [
+				{
+					"check status 200": true,
+					"check response": true
+				}
+			]
+		},
+		{
+			"id": "e25605df-b6a5-4575-a641-ebc4c19fe21c",
+			"name": "fire switch",
+			"url": "http://homital.ml:2333/api/user/rooms/devices/operations?uid=5f1c4c4e360ff438a35d204a&devicename=Device10086&operation=switch",
+			"time": 438,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"check status 200": true,
+				"check response success": true
+			},
+			"testPassFailCounts": {
+				"check status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response success": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				438
+			],
+			"allTests": [
+				{
+					"check status 200": true,
+					"check response success": true
+				}
+			]
+		},
+		{
+			"id": "03b1462e-ae61-48a7-b95d-391bc25529da",
+			"name": "check status",
+			"url": "http://homital.ml:2333/api/device/status?uid=5f1c4c4e360ff438a35d204a&devicename=Device10086",
+			"time": 428,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"check status 200": true,
+				"check response": true
+			},
+			"testPassFailCounts": {
+				"check status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				428
+			],
+			"allTests": [
+				{
+					"check status 200": true,
+					"check response": true
+				}
+			]
+		},
+		{
+			"id": "59682d8b-03d7-4931-bdee-5fc0e7b40462",
+			"name": "fire switch2",
+			"url": "http://homital.ml:2333/api/user/rooms/devices/operations?uid=5f1c4c4e360ff438a35d204a&devicename=Device10086&operation=switch",
+			"time": 431,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"check status 200": true,
+				"check response success": true
+			},
+			"testPassFailCounts": {
+				"check status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response success": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				431
+			],
+			"allTests": [
+				{
+					"check status 200": true,
+					"check response success": true
+				}
+			]
+		},
+		{
+			"id": "1b63d3b1-8ab3-428c-8be9-31550ba3ec0f",
+			"name": "check status2",
+			"url": "http://homital.ml:2333/api/device/status?uid=5f1c4c4e360ff438a35d204a&devicename=Device10086",
+			"time": 434,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"check status 200": true,
+				"check response": true
+			},
+			"testPassFailCounts": {
+				"check status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				434
+			],
+			"allTests": [
+				{
+					"check status 200": true,
+					"check response": true
+				}
+			]
+		},
+		{
+			"id": "446d87a3-b6e5-4f14-8a2d-7782c9502014",
+			"name": "~~~这是另一条分割线~~~",
+			"url": "http://ip-api.com/line",
+			"time": 1385,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				1385
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "8b3a32e2-45c4-418f-a7bf-a6f65eb120a7",
+			"name": "remove room device",
+			"url": "http://homital.ml:2333/api/user/rooms/devices?uid=5f1c4c4e360ff438a35d204a&devicename=Device10086",
+			"time": 543,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"check status 200": true,
+				"check response success": true
+			},
+			"testPassFailCounts": {
+				"check status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response success": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				543
+			],
+			"allTests": [
+				{
+					"check status 200": true,
+					"check response success": true
+				}
+			]
+		},
+		{
+			"id": "854bed01-973f-44d4-a9a0-01b0a4b53de7",
+			"name": "check device after deletion",
+			"url": "http://homital.ml:2333/api/user/rooms/devices?uid=5f1c4c4e360ff438a35d204a",
+			"time": 432,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"check status 200": true,
+				"check response room id name": true
+			},
+			"testPassFailCounts": {
+				"check status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response room id name": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				432
+			],
+			"allTests": [
+				{
+					"check status 200": true,
+					"check response room id name": true
+				}
+			]
+		},
+		{
+			"id": "ce0872f3-5df8-429a-ad01-6df2c2c99d2c",
+			"name": "remove room member",
+			"url": "http://homital.ml:2333/api/user/rooms/members?uid=5f1c4c4e360ff438a35d204a&username=ym",
+			"time": 577,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"check status 200": true,
+				"check response success": true
+			},
+			"testPassFailCounts": {
+				"check status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response success": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				577
+			],
+			"allTests": [
+				{
+					"check status 200": true,
+					"check response success": true
+				}
+			]
+		},
+		{
+			"id": "8b4e9d17-23fa-4784-a018-18ef7ef2dac8",
+			"name": "check room members after deletion",
+			"url": "http://homital.ml:2333/api/user/rooms/members?uid=5f1c4c4e360ff438a35d204a",
+			"time": 1032,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"check status 200": true,
+				"check response room id name": true
+			},
+			"testPassFailCounts": {
+				"check status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response room id name": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1032
+			],
+			"allTests": [
+				{
+					"check status 200": true,
+					"check response room id name": true
+				}
+			]
+		},
+		{
+			"id": "ce26674d-11f2-4353-98df-6020b41d2b35",
+			"name": "remove room",
+			"url": "http://homital.ml:2333/api/user/rooms?uid=5f1c4c4e360ff438a35d204a",
+			"time": 513,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"check status 200": true,
+				"check response success": true
+			},
+			"testPassFailCounts": {
+				"check status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response success": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				513
+			],
+			"allTests": [
+				{
+					"check status 200": true,
+					"check response success": true
+				}
+			]
+		},
+		{
+			"id": "3511299c-5863-47be-bbe6-86b2909776c4",
+			"name": "check removed room",
+			"url": "http://homital.ml:2333/api/user/rooms",
+			"time": 421,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"check status 200": true,
+				"check response room id name": true
+			},
+			"testPassFailCounts": {
+				"check status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response room id name": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				421
+			],
+			"allTests": [
+				{
+					"check status 200": true,
+					"check response room id name": true
+				}
+			]
+		},
+		{
+			"id": "d4b5f933-ea20-4f2d-8ae2-5027751da9be",
+			"name": "logout with non-existent refresh token",
+			"url": "http://homital.ml:2333/api/auth/user/logout",
+			"time": 466,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"check status 404": true,
+				"check response error": true
+			},
+			"testPassFailCounts": {
+				"check status 404": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response error": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				466
+			],
+			"allTests": [
+				{
+					"check status 404": true,
+					"check response error": true
+				}
+			]
+		},
+		{
+			"id": "57a26d5c-6df5-4f3b-a92e-4e4154219120",
+			"name": "logout",
+			"url": "http://homital.ml:2333/api/auth/user/logout",
+			"time": 1053,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"check status 200": true,
+				"check response success": true
+			},
+			"testPassFailCounts": {
+				"check status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"check response success": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1053
+			],
+			"allTests": [
+				{
+					"check status 200": true,
+					"check response success": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 31440,
+	"collection": {
+		"requests": [
+			{
+				"id": "3a72e9c6-8a52-4ae1-b3b8-dc68705e2efa",
+				"method": "POST"
+			},
+			{
+				"id": "25ff1358-0b2b-4c4a-a676-beea429c0ab1",
+				"method": "POST"
+			},
+			{
+				"id": "99c014b8-f7a9-4104-b603-d9dc2a4031b9",
+				"method": "POST"
+			},
+			{
+				"id": "a01f47e0-345f-4915-9e73-a8d3ee1fbcb9",
+				"method": "POST"
+			},
+			{
+				"id": "d96b3200-e77f-45a4-8aca-55fb90897c21",
+				"method": "POST"
+			},
+			{
+				"id": "0c23f504-c8f0-42b3-9c7a-7187bcf09c65",
+				"method": "POST"
+			},
+			{
+				"id": "b20ec404-e3a7-4087-8755-00f18c7bb431",
+				"method": "POST"
+			},
+			{
+				"id": "a5cfa410-114f-452b-a039-539b77a39d2c",
+				"method": "POST"
+			},
+			{
+				"id": "24c41ee0-903a-4ab1-a448-0dc0cc66ab39",
+				"method": "POST"
+			},
+			{
+				"id": "fe12efb9-28fc-41ba-9728-18af07160210",
+				"method": "POST"
+			},
+			{
+				"id": "f0576abf-bbfb-4fcb-b4b2-0b08c2e1bcfc",
+				"method": "POST"
+			},
+			{
+				"id": "85ea4f92-f6aa-4631-8e33-5b0f3c464213",
+				"method": "POST"
+			},
+			{
+				"id": "9175ed48-bc63-4116-939a-81f8f138a45a",
+				"method": "GET"
+			},
+			{
+				"id": "a86554d0-1e2e-4a9f-a8a7-e1ad6270b4b7",
+				"method": "POST"
+			},
+			{
+				"id": "f2796c8d-6dc4-4d96-9caa-5925ec21bcf5",
+				"method": "GET"
+			},
+			{
+				"id": "b0cf427a-55df-49ba-88bf-28fbe2ecb40b",
+				"method": "PUT"
+			},
+			{
+				"id": "709868a4-091c-439d-8a25-e261a18c447c",
+				"method": "GET"
+			},
+			{
+				"id": "1a5a8e00-01b6-41c7-af59-59f6d03cf593",
+				"method": "GET"
+			},
+			{
+				"id": "c13aa975-ca25-4572-97fe-3b8bb2c8aae7",
+				"method": "POST"
+			},
+			{
+				"id": "85da548f-6f59-4be7-8117-d4135c642db1",
+				"method": "POST"
+			},
+			{
+				"id": "cbacdf30-ae18-4c6f-9e29-bd2dffc7f491",
+				"method": "POST"
+			},
+			{
+				"id": "49e8854b-b691-4487-8735-96bed3cefe84",
+				"method": "GET"
+			},
+			{
+				"id": "b7ab61d6-9bc8-4918-adeb-19148b6248b6",
+				"method": "PUT"
+			},
+			{
+				"id": "a22245fb-2c48-4972-ab32-b79d22298f9b",
+				"method": "GET"
+			},
+			{
+				"id": "abe0e0bf-962c-405c-8933-558ed12413db",
+				"method": "GET"
+			},
+			{
+				"id": "d6022a95-588b-40c7-be8e-b7ff68983807",
+				"method": "POST"
+			},
+			{
+				"id": "9cba7bca-3c45-4fae-9803-81f1650226a8",
+				"method": "POST"
+			},
+			{
+				"id": "8c833d43-1eb2-4374-8bf4-f1969f3fc826",
+				"method": "GET"
+			},
+			{
+				"id": "03e9f0f1-b825-4704-9d06-d71973adb9cb",
+				"method": "PUT"
+			},
+			{
+				"id": "99512085-a1c7-4baa-8c08-a76b0f8dda5e",
+				"method": "GET"
+			},
+			{
+				"id": "06d24f85-3df6-4ef9-b25f-c47387d77f2e",
+				"method": "POST"
+			},
+			{
+				"id": "e442b989-f2dc-4f8b-9da0-f6f71f6147c9",
+				"method": "GET"
+			},
+			{
+				"id": "2ea91889-fdbc-4e3c-894b-e5ef79d5f5ac",
+				"method": "GET"
+			},
+			{
+				"id": "e25605df-b6a5-4575-a641-ebc4c19fe21c",
+				"method": "POST"
+			},
+			{
+				"id": "03b1462e-ae61-48a7-b95d-391bc25529da",
+				"method": "GET"
+			},
+			{
+				"id": "59682d8b-03d7-4931-bdee-5fc0e7b40462",
+				"method": "POST"
+			},
+			{
+				"id": "1b63d3b1-8ab3-428c-8be9-31550ba3ec0f",
+				"method": "GET"
+			},
+			{
+				"id": "446d87a3-b6e5-4f14-8a2d-7782c9502014",
+				"method": "GET"
+			},
+			{
+				"id": "8b3a32e2-45c4-418f-a7bf-a6f65eb120a7",
+				"method": "DELETE"
+			},
+			{
+				"id": "854bed01-973f-44d4-a9a0-01b0a4b53de7",
+				"method": "GET"
+			},
+			{
+				"id": "ce0872f3-5df8-429a-ad01-6df2c2c99d2c",
+				"method": "DELETE"
+			},
+			{
+				"id": "8b4e9d17-23fa-4784-a018-18ef7ef2dac8",
+				"method": "GET"
+			},
+			{
+				"id": "ce26674d-11f2-4353-98df-6020b41d2b35",
+				"method": "DELETE"
+			},
+			{
+				"id": "3511299c-5863-47be-bbe6-86b2909776c4",
+				"method": "GET"
+			},
+			{
+				"id": "d4b5f933-ea20-4f2d-8ae2-5027751da9be",
+				"method": "POST"
+			},
+			{
+				"id": "57a26d5c-6df5-4f3b-a92e-4e4154219120",
+				"method": "POST"
+			}
+		]
+	}
+}

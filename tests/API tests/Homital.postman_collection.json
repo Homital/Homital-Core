@@ -1,0 +1,3023 @@
+{
+	"info": {
+		"_postman_id": "a1fa834d-4c1e-4a4c-b68e-ca2362bb42fb",
+		"name": "Homital",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "getotp (don't provide email)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d9e03aac-c83f-47c1-a9bc-ba3a9ceeb0fc",
+						"exec": [
+							"pm.test('check status 400', () => {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response error', () => {\r",
+							"    pm.response.to.have.jsonBody(\"error\");\r",
+							"    pm.expect(pm.response.json().error).to.eql('email not provided');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"emaill\":\"lirc572@163.com\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/auth/user/getotp",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"auth",
+						"user",
+						"getotp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getotp (should work)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5a6c4194-e953-4755-92cc-0996658bf231",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response success', () => {\r",
+							"    pm.expect(pm.response.json()).to.eql('success');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"email\":\"lirc572@163.com\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/auth/user/getotp",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"auth",
+						"user",
+						"getotp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register (email registered)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1420aba6-ecf3-4399-afef-86c875e391d7",
+						"exec": [
+							"pm.test('check status 500', () => {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response error', () => {\r",
+							"    pm.response.to.have.jsonBody(\"error\");\r",
+							"    pm.expect(pm.response.json().error).to.eql('email already registered');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "3ee73a7c-5bf4-454c-af52-f0a6431b61f1",
+						"exec": [
+							"pm.environment.set('datetime', Date.now());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\": \"{{datetime}}\", \"email\": \"{{email}}\", \"password\": \"{{password}}\", \"otp\": \"{{OTP}}\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/auth/user/register",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"auth",
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login by username without username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "776dc74a-3226-4fbc-bcb2-bca1d5d5045b",
+						"exec": [
+							"pm.test('check status 400', () => {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response error', () => {\r",
+							"    pm.response.to.have.jsonBody(\"error\");\r",
+							"    pm.expect(pm.response.json().error).to.eql('Missing usernmae');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"email\": \"lirc572\", \"password\": \"password\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/auth/user/login?by=username",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"auth",
+						"user",
+						"login"
+					],
+					"query": [
+						{
+							"key": "by",
+							"value": "username"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login by email without email",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3637e965-d54c-48a9-8eba-6cdc502a4e39",
+						"exec": [
+							"pm.test('check status 400', () => {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response error', () => {\r",
+							"    pm.response.to.have.jsonBody(\"error\");\r",
+							"    pm.expect(pm.response.json().error).to.eql('Missing email');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\": \"lirc572\", \"password\": \"password\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/auth/user/login?by=email",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"auth",
+						"user",
+						"login"
+					],
+					"query": [
+						{
+							"key": "by",
+							"value": "email"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login by randommtd",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fd0deda5-b8cc-45d5-b230-e92a3a3e452a",
+						"exec": [
+							"pm.test('check status 501', () => {\r",
+							"    pm.response.to.have.status(501);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response error', () => {\r",
+							"    pm.response.to.have.jsonBody(\"error\");\r",
+							"    pm.expect(pm.response.json().error).to.eql('requested login method not supported');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a6084bca-7070-46b9-ad15-ce1da7048747",
+						"exec": [
+							"pm.environment.set('datetime', Date.now());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\": \"lirc572\", \"password\": \"password\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/auth/user/login?by={{datetime}}",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"auth",
+						"user",
+						"login"
+					],
+					"query": [
+						{
+							"key": "by",
+							"value": "{{datetime}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login by non-existent username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bf221c7a-4b82-44de-8a01-668434002ada",
+						"exec": [
+							"pm.test('check status 404', () => {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response error', () => {\r",
+							"    pm.response.to.have.jsonBody(\"error\");\r",
+							"    pm.expect(pm.response.json().error).to.eql('username or email does not exist');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "43aa5aa1-539a-445b-8e6b-64736e76f14f",
+						"exec": [
+							"pm.environment.set('datetime', Date.now());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\": \"{{datetime}}\", \"password\": \"password\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/auth/user/login?by=username",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"auth",
+						"user",
+						"login"
+					],
+					"query": [
+						{
+							"key": "by",
+							"value": "username"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login by non-existent email",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5f6c8d55-af74-4db1-9cf8-35d37f0d7d1a",
+						"exec": [
+							"pm.test('check status 404', () => {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response error', () => {\r",
+							"    pm.response.to.have.jsonBody(\"error\");\r",
+							"    pm.expect(pm.response.json().error).to.eql('username or email does not exist');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f5b0f9f5-6e67-4df1-9ec5-bb3e646bdaaa",
+						"exec": [
+							"pm.environment.set('datetime', Date.now());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"email\": \"{{datetime}}\", \"password\": \"password\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/auth/user/login?by=email",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"auth",
+						"user",
+						"login"
+					],
+					"query": [
+						{
+							"key": "by",
+							"value": "email"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login with wrong password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "79210184-e648-4513-908a-3d5fca3149e6",
+						"exec": [
+							"pm.test('check status 403', () => {\r",
+							"    pm.response.to.have.status(403);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response error', () => {\r",
+							"    pm.response.to.have.jsonBody(\"error\");\r",
+							"    pm.expect(pm.response.json().error).to.eql('Incorrect password');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "4b5ed4d3-3b4d-412a-b90e-114a0713d195",
+						"exec": [
+							"pm.environment.set('datetime', Date.now());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\": \"{{username}}\", \"password\": \"{{datetime}}\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/auth/user/login?by=username",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"auth",
+						"user",
+						"login"
+					],
+					"query": [
+						{
+							"key": "by",
+							"value": "username"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login by username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a44b12b5-7018-48b3-beac-7b0e316be80d",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response', () => {\r",
+							"    pm.response.to.have.jsonBody(\"refresh_token\");\r",
+							"    pm.environment.set('refresh_token', pm.response.json().refresh_token);\r",
+							"    pm.response.to.have.jsonBody(\"access_token\");\r",
+							"    pm.environment.set('access_token', pm.response.json().access_token);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\": \"{{username}}\", \"password\": \"{{password}}\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/auth/user/login?by=username",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"auth",
+						"user",
+						"login"
+					],
+					"query": [
+						{
+							"key": "by",
+							"value": "username"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get access token (don't provide refresh token)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3c2459fe-24fa-4a41-b774-f316a54e134e",
+						"exec": [
+							"pm.test('check status 400', () => {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response error', () => {\r",
+							"    pm.response.to.have.jsonBody(\"error\");\r",
+							"    pm.expect(pm.response.json().error).to.eql('refresh_token not provided');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/auth/user/token",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"auth",
+						"user",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get access token with non-existent refresh token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9a4ae21d-475c-47f7-bc15-d692ef5139df",
+						"exec": [
+							"pm.test('check status 404', () => {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response error', () => {\r",
+							"    pm.response.to.have.jsonBody(\"error\");\r",
+							"    pm.expect(pm.response.json().error).to.eql('refresh token not authorized');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "ded304e0-0b35-4aa6-b50d-73fff5c0c3b2",
+						"exec": [
+							"pm.environment.set('datetime', Date.now());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"refresh_token\": \"{{datetime}}\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/auth/user/token",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"auth",
+						"user",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get access token the correct way",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8f3e647b-a94f-4f7a-bf4b-2cbd19504706",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response', () => {\r",
+							"    pm.response.to.have.jsonBody(\"access_token\");\r",
+							"    pm.environment.set('access_token', pm.response.json().access_token);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"refresh_token\": \"{{refresh_token}}\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/auth/user/token",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"auth",
+						"user",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check pre-existent rooms",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1668c8fa-82f1-431c-b106-47e3b3f78830",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response room id name', () => {\r",
+							"    const res = pm.response.json();\r",
+							"    pm.expect(res.length).to.eql(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/user/rooms",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"user",
+						"rooms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create room",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dcb0141e-7eee-4a12-87c3-791c562ea2c1",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response room_id', () => {\r",
+							"    pm.response.to.have.jsonBody(\"room_id\");\r",
+							"    pm.environment.set('res_room_id', pm.response.json().room_id);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"bloodyroom\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/user/rooms",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"user",
+						"rooms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check created room",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a92d3fcf-831e-4237-aa59-d05b7dcd491d",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response room id name', () => {\r",
+							"    const res = pm.response.json();\r",
+							"    pm.expect(res.length).to.eql(1);\r",
+							"    pm.expect(res[0].name).to.eql('bloodyroom');\r",
+							"    pm.expect(res[0].uid).to.eql(pm.environment.get('res_room_id'));\r",
+							"    pm.expect(res[0].role).to.eql('owner');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/user/rooms",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"user",
+						"rooms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update room",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "21b50245-34ae-4633-92e3-c8dfdb1cb3d2",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response success', () => {\r",
+							"    pm.expect(pm.response.json()).to.eql('success');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"notsobloodyroom\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/user/rooms?uid={{res_room_id}}",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"user",
+						"rooms"
+					],
+					"query": [
+						{
+							"key": "uid",
+							"value": "{{res_room_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check updated room",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5f5524f0-7d03-4058-a57f-db9f4b5d2751",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response room id name', () => {\r",
+							"    const res = pm.response.json();\r",
+							"    pm.expect(res.length).to.eql(1);\r",
+							"    pm.expect(res[0].name).to.eql('notsobloodyroom');\r",
+							"    pm.expect(res[0].uid).to.eql(pm.environment.get('res_room_id'));\r",
+							"    pm.expect(res[0].role).to.eql('owner');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/user/rooms",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"user",
+						"rooms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check pre-existent room members",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "52553bf0-3223-4437-996c-a8349da108b4",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response room id name', () => {\r",
+							"    const res = pm.response.json();\r",
+							"    pm.expect(res.length).to.eql(1);\r",
+							"    pm.expect(res[0].username).to.eql(pm.environment.get('username'));\r",
+							"    pm.expect(res[0].role).to.eql('owner');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/user/rooms/members?uid={{res_room_id}}",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"user",
+						"rooms",
+						"members"
+					],
+					"query": [
+						{
+							"key": "uid",
+							"value": "{{res_room_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add nonexistent room member",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "31f72f05-eb5e-43f6-a6e8-94859dfcc668",
+						"exec": [
+							"pm.test('check status 404', () => {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response error', () => {\r",
+							"    pm.response.to.have.jsonBody(\"error\");\r",
+							"    pm.expect(pm.response.json().error).to.eql('user not found');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1fd212a7-f576-438e-8086-07c30a0807cf",
+						"exec": [
+							"pm.environment.set('datetime', Date.now());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\": \"{{datetime}}\", \"role\": \"viewer\", \"name\": \"your room\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/user/rooms/members?uid={{res_room_id}}",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"user",
+						"rooms",
+						"members"
+					],
+					"query": [
+						{
+							"key": "uid",
+							"value": "{{res_room_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add room member",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b1b336b2-78e9-49c8-ac3f-d9643f32a44f",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response success', () => {\r",
+							"    pm.expect(pm.response.json()).to.eql('success');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "bbc577c5-60cf-4f82-8b43-e9553d32d3d2",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\": \"ym\", \"role\": \"viewer\", \"name\": \"lrc's room\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/user/rooms/members?uid={{res_room_id}}",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"user",
+						"rooms",
+						"members"
+					],
+					"query": [
+						{
+							"key": "uid",
+							"value": "{{res_room_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add duplicated room member",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "607b53ca-9c07-4620-8ebf-55e5a9655464",
+						"exec": [
+							"pm.test('check status 409', () => {\r",
+							"    pm.response.to.have.status(409);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response error', () => {\r",
+							"    pm.response.to.have.jsonBody(\"error\");\r",
+							"    pm.expect(pm.response.json().error).to.eql('member exists');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f61ea0fa-c5a9-46be-9011-b656a24943d9",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\": \"ym\", \"role\": \"viewer\", \"name\": \"whateverroom\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/user/rooms/members?uid={{res_room_id}}",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"user",
+						"rooms",
+						"members"
+					],
+					"query": [
+						{
+							"key": "uid",
+							"value": "{{res_room_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check added room member",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9ab8ca5a-5a47-4491-8cac-8129c93a3e0d",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response room id name', () => {\r",
+							"    const res = pm.response.json();\r",
+							"    pm.expect(res.length).to.eql(2);\r",
+							"    pm.expect(res[0].username).to.eql(pm.environment.get('username'));\r",
+							"    pm.expect(res[0].role).to.eql('owner');\r",
+							"    pm.expect(res[1].username).to.eql('ym');\r",
+							"    pm.expect(res[1].role).to.eql('viewer');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/user/rooms/members?uid={{res_room_id}}",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"user",
+						"rooms",
+						"members"
+					],
+					"query": [
+						{
+							"key": "uid",
+							"value": "{{res_room_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update room member",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "eca135a3-7fb5-47de-ac22-64508f908454",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response success', () => {\r",
+							"    pm.expect(pm.response.json()).to.eql('success');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "e535e1c4-c893-4e35-b101-cc2bad5cda23",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\": \"ym\", \"role\": \"member\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/user/rooms/members?uid={{res_room_id}}",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"user",
+						"rooms",
+						"members"
+					],
+					"query": [
+						{
+							"key": "uid",
+							"value": "{{res_room_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check updated room member",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bdc9b1e0-5efa-4bd2-be28-4998d1ec1f23",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response room id name', () => {\r",
+							"    const res = pm.response.json();\r",
+							"    pm.expect(res.length).to.eql(2);\r",
+							"    pm.expect(res[0].username).to.eql(pm.environment.get('username'));\r",
+							"    pm.expect(res[0].role).to.eql('owner');\r",
+							"    pm.expect(res[1].username).to.eql('ym');\r",
+							"    pm.expect(res[1].role).to.eql('member');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/user/rooms/members?uid={{res_room_id}}",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"user",
+						"rooms",
+						"members"
+					],
+					"query": [
+						{
+							"key": "uid",
+							"value": "{{res_room_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check pre-existent room devices",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bf7b0e26-075b-436e-815c-6f9ecb34bea6",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response room id name', () => {\r",
+							"    const res = pm.response.json();\r",
+							"    pm.expect(res.length).to.eql(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/user/rooms/devices?uid={{res_room_id}}",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"user",
+						"rooms",
+						"devices"
+					],
+					"query": [
+						{
+							"key": "uid",
+							"value": "{{res_room_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add unsupported device",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "775cdf50-60b3-452c-9a59-e51adfcd6d1c",
+						"exec": [
+							"pm.test('check status 406', () => {\r",
+							"    pm.response.to.have.status(406);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response error', () => {\r",
+							"    pm.response.to.have.jsonBody(\"error\");\r",
+							"    pm.expect(pm.response.json().error).to.eql('device not supported');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "cb058d90-1ac7-4ff3-803b-dcb3862116ee",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"type\": \"homital-camera\",\r\n  \"name\": \"Mia Light\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/user/rooms/devices?uid={{res_room_id}}",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"user",
+						"rooms",
+						"devices"
+					],
+					"query": [
+						{
+							"key": "uid",
+							"value": "{{res_room_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add room device",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bd6e42d2-4a9f-4bb2-9730-4b97fbebb151",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response success', () => {\r",
+							"    pm.expect(pm.response.json()).to.eql('success');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1c3aeee8-1731-4100-ae12-904dbe24bdf3",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"type\": \"homital-light\",\r\n  \"name\": \"My Light\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/user/rooms/devices?uid={{res_room_id}}",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"user",
+						"rooms",
+						"devices"
+					],
+					"query": [
+						{
+							"key": "uid",
+							"value": "{{res_room_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check added device",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "97018e9f-d9f8-4b6f-98ef-bde670db8cdb",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response room id name', () => {\r",
+							"    const res = pm.response.json();\r",
+							"    pm.expect(res.length).to.eql(1);\r",
+							"    pm.expect(res[0].type).to.eql('homital-light');\r",
+							"    pm.expect(res[0].name).to.eql('My Light');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/user/rooms/devices?uid={{res_room_id}}",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"user",
+						"rooms",
+						"devices"
+					],
+					"query": [
+						{
+							"key": "uid",
+							"value": "{{res_room_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update room device",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e53c3518-28ca-4573-8062-3bff3b8aa0b9",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response success', () => {\r",
+							"    pm.expect(pm.response.json()).to.eql('success');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"old_name\": \"My Light\",\r\n  \"new_name\": \"Device10086\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/user/rooms/devices?uid={{res_room_id}}",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"user",
+						"rooms",
+						"devices"
+					],
+					"query": [
+						{
+							"key": "uid",
+							"value": "{{res_room_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check updated device",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f2a93e9e-5938-4598-bfd0-192f2aa57610",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response room id name', () => {\r",
+							"    const res = pm.response.json();\r",
+							"    pm.expect(res.length).to.eql(1);\r",
+							"    pm.expect(res[0].type).to.eql('homital-light');\r",
+							"    pm.expect(res[0].name).to.eql('Device10086');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/user/rooms/devices?uid={{res_room_id}}",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"user",
+						"rooms",
+						"devices"
+					],
+					"query": [
+						{
+							"key": "uid",
+							"value": "{{res_room_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "~~~这是一条分割线~~~",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://ip-api.com/line",
+					"protocol": "http",
+					"host": [
+						"ip-api",
+						"com"
+					],
+					"path": [
+						"line"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get operations",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fe8631c7-7854-4703-92dd-2f157d017e09",
+						"exec": [
+							"pm.test('check status 501', () => {\r",
+							"    pm.response.to.have.status(501);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response error', () => {\r",
+							"    pm.response.to.have.jsonBody(\"error\");\r",
+							"    pm.expect(pm.response.json().error).to.eql('At this point, the client should know available operations based on the device type');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://homital.ml:2333/api/user/rooms/devices/operations",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"user",
+						"rooms",
+						"devices",
+						"operations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check status0",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ba26e7a8-9646-4a6c-b02f-85a931dc9ae1",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response', () => {\r",
+							"    pm.response.to.have.jsonBody(\"power\");\r",
+							"    pm.expect(pm.response.json().power).to.eql(false);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "homital",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/device/status?uid={{res_room_id}}&devicename=Device10086",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"device",
+						"status"
+					],
+					"query": [
+						{
+							"key": "uid",
+							"value": "{{res_room_id}}"
+						},
+						{
+							"key": "devicename",
+							"value": "Device10086"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fire switch",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4762798c-ece7-475b-a6e7-9715945b1632",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response success', () => {\r",
+							"    pm.expect(pm.response.json()).to.eql('success');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"switch\": \"on\",\r\n  \"at\": \"1594372820001\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/user/rooms/devices/operations?uid={{res_room_id}}&devicename=Device10086&operation=switch",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"user",
+						"rooms",
+						"devices",
+						"operations"
+					],
+					"query": [
+						{
+							"key": "uid",
+							"value": "{{res_room_id}}"
+						},
+						{
+							"key": "devicename",
+							"value": "Device10086"
+						},
+						{
+							"key": "operation",
+							"value": "switch"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "18186d04-61c3-4235-862e-6d932fc3f5b8",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response', () => {\r",
+							"    pm.response.to.have.jsonBody(\"power\");\r",
+							"    pm.expect(pm.response.json().power).to.eql(true);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "homital",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/device/status?uid={{res_room_id}}&devicename=Device10086",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"device",
+						"status"
+					],
+					"query": [
+						{
+							"key": "uid",
+							"value": "{{res_room_id}}"
+						},
+						{
+							"key": "devicename",
+							"value": "Device10086"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fire switch2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e71d5807-70e4-460e-8d5d-63974d1b1f7d",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response success', () => {\r",
+							"    pm.expect(pm.response.json()).to.eql('success');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"switch\": \"off\",\r\n  \"at\": \"1594372820001\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/user/rooms/devices/operations?uid={{res_room_id}}&devicename=Device10086&operation=switch",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"user",
+						"rooms",
+						"devices",
+						"operations"
+					],
+					"query": [
+						{
+							"key": "uid",
+							"value": "{{res_room_id}}"
+						},
+						{
+							"key": "devicename",
+							"value": "Device10086"
+						},
+						{
+							"key": "operation",
+							"value": "switch"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check status2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "84a63265-cd92-4eec-92d4-1c60bd2e92e0",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response', () => {\r",
+							"    pm.response.to.have.jsonBody(\"power\");\r",
+							"    pm.expect(pm.response.json().power).to.eql(false);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "homital",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/device/status?uid={{res_room_id}}&devicename=Device10086",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"device",
+						"status"
+					],
+					"query": [
+						{
+							"key": "uid",
+							"value": "{{res_room_id}}"
+						},
+						{
+							"key": "devicename",
+							"value": "Device10086"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "~~~这是另一条分割线~~~",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://ip-api.com/line",
+					"protocol": "http",
+					"host": [
+						"ip-api",
+						"com"
+					],
+					"path": [
+						"line"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove room device",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9f1d4955-595a-4864-87d3-0e761ec39ebf",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response success', () => {\r",
+							"    pm.expect(pm.response.json()).to.eql('success');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fa6ac517-2da4-4dca-8e57-a5528fe21208",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/user/rooms/devices?uid={{res_room_id}}&devicename=Device10086",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"user",
+						"rooms",
+						"devices"
+					],
+					"query": [
+						{
+							"key": "uid",
+							"value": "{{res_room_id}}"
+						},
+						{
+							"key": "devicename",
+							"value": "Device10086"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check device after deletion",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a26009de-d936-4d0e-a8b5-247b83e89224",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response room id name', () => {\r",
+							"    const res = pm.response.json();\r",
+							"    pm.expect(res.length).to.eql(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/user/rooms/devices?uid={{res_room_id}}",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"user",
+						"rooms",
+						"devices"
+					],
+					"query": [
+						{
+							"key": "uid",
+							"value": "{{res_room_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove room member",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "55133bfd-b21d-43d5-9ac9-2aa03c2e6fc2",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response success', () => {\r",
+							"    pm.expect(pm.response.json()).to.eql('success');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "75b3a4c6-83f2-4d2d-906e-e7907831787e",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/user/rooms/members?uid={{res_room_id}}&username=ym",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"user",
+						"rooms",
+						"members"
+					],
+					"query": [
+						{
+							"key": "uid",
+							"value": "{{res_room_id}}"
+						},
+						{
+							"key": "username",
+							"value": "ym"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check room members after deletion",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "80c14cb8-ce5e-4541-8342-1f66cd9d1f26",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response room id name', () => {\r",
+							"    const res = pm.response.json();\r",
+							"    pm.expect(res.length).to.eql(1);\r",
+							"    pm.expect(res[0].username).to.eql(pm.environment.get('username'));\r",
+							"    pm.expect(res[0].role).to.eql('owner');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/user/rooms/members?uid={{res_room_id}}",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"user",
+						"rooms",
+						"members"
+					],
+					"query": [
+						{
+							"key": "uid",
+							"value": "{{res_room_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove room",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "69cc6df9-9be3-4c76-a069-045aae56eb96",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response success', () => {\r",
+							"    pm.expect(pm.response.json()).to.eql('success');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"notsobloodyroom\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/user/rooms?uid={{res_room_id}}",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"user",
+						"rooms"
+					],
+					"query": [
+						{
+							"key": "uid",
+							"value": "{{res_room_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check removed room",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3608458f-bba1-4ea5-a852-6552812872f2",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response room id name', () => {\r",
+							"    const res = pm.response.json();\r",
+							"    pm.expect(res.length).to.eql(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/user/rooms",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"user",
+						"rooms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout with non-existent refresh token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "88c01268-b02f-478b-8bc3-326c9f8ae502",
+						"exec": [
+							"pm.test('check status 404', () => {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response error', () => {\r",
+							"    pm.response.to.have.jsonBody(\"error\");\r",
+							"    pm.expect(pm.response.json().error).to.eql('refresh token not authorized');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "51a965d6-61f8-4786-b1d1-a61c039e9468",
+						"exec": [
+							"pm.environment.set('datetime', Date.now());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"refresh_token\": \"{{datetime}}\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/auth/user/logout",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"auth",
+						"user",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f124b28d-6057-4ae1-9010-7dcf9bde118b",
+						"exec": [
+							"pm.test('check status 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('check response success', () => {\r",
+							"    pm.expect(pm.response.json()).to.eql('success');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"refresh_token\": \"{{refresh_token}}\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://homital.ml:2333/api/auth/user/logout",
+					"protocol": "http",
+					"host": [
+						"homital",
+						"ml"
+					],
+					"port": "2333",
+					"path": [
+						"api",
+						"auth",
+						"user",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
