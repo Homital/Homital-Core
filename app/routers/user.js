@@ -152,6 +152,7 @@ router.post('/rooms/members', async (req, res) => {
       res.status(409).json({
         error: 'member exists',
       });
+      return;
     }
     if (!await db.functions.getUserByUsername(newUSer.username)) {
       res.status(404).json({
@@ -246,6 +247,12 @@ router.post('/rooms/devices', async (req, res) => {
   const roomId = req.query.uid;
   const deviceType = req.body.type;
   const deviceName = req.body.name;
+  if (!['homital-light', 'homital-usb-adapter'].includes(deviceType)) {
+    res.status(406).json({
+      error: 'device not supported',
+    });
+    return;
+  }
   try {
     const opst = await db.functions.addRoomDevice(
         username, roomId, deviceType, deviceName,
