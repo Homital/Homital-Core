@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken');
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
-  if (token === null) {
+  if (!token) {
     res.sendStatus(401);
     return;
   }
@@ -35,7 +35,7 @@ function validateEmail(email) {
 }
 
 let OTPList = [
-  {email: 'e0424619@u.nus.edu', otp: '990811', exp: 1593439412204},
+  {email: 'e0424619@u.nus.edu', otp: '990811', exp: 1911101657344},
 ];
 
 /**
@@ -65,9 +65,10 @@ function generateOTP(email) {
  */
 function testOTP(email, otp) {
   // return true;
-  console.log(OTPList);
+  // console.log(OTPList);
   let res = false;
   OTPList.forEach((x) => {
+    // console.log(x);
     if (x.email === email) {
       if (x.otp === otp) {
         res = true;
@@ -82,7 +83,7 @@ function testOTP(email, otp) {
  * Remove expired OTPs.
  */
 function removeExpiredOTP() {
-  OTPList = OTPList.filter((x) => x.exp < new Date().getTime());
+  OTPList = OTPList.filter((x) => x.exp > new Date().getTime());
 }
 
 module.exports = {
@@ -90,4 +91,5 @@ module.exports = {
   validateEmail,
   generateOTP,
   testOTP,
+  OTPList,
 };

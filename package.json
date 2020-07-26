@@ -4,6 +4,7 @@
   "description": "homital backend",
   "main": "index.js",
   "scripts": {
+    "test": "mocha tests/unit_tests/test.js",
     "dev": "nodemon app/index.js 2333 dev",
     "lint-md": "remark .",
     "lint-js": "eslint ."
@@ -21,8 +22,10 @@
     "nodemailer": "^6.4.10"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "eslint": "^7.2.0",
     "eslint-config-google": "^0.14.0",
+    "mocha": "^8.0.1",
     "nodemon": "^2.0.4",
     "remark-cli": "^8.0.0",
     "remark-lint": "^7.0.0",
