@@ -285,10 +285,12 @@ router.post('/rooms/devices/operations', async (req, res) => {
           db.functions.updateDeviceStatus(
               username, roomId, deviceName, JSON.stringify({power: true}),
           );
+          db.functions.updateDeviceUsage('on ' + new Date().getTime());
         } else if (operationBody.switch === 'off') {
           db.functions.updateDeviceStatus(
               username, roomId, deviceName, JSON.stringify({power: false}),
           );
+          db.functions.updateDeviceUsage('off ' + new Date().getTime());
         }
         break;
       default:
@@ -302,40 +304,82 @@ router.post('/rooms/devices/operations', async (req, res) => {
   }
 });
 
-/*
-router.post('/:username/:roomname/:devicename/:actionname', (req, res) => {
-  if (req.params.actionname === 'poweron') {
-    db.models.Status.findOne({ 'id': 'qwertyuiop' }, 'power', (err, status) => {
-      if (err) {
-        console.error(err);
-        res.status(404).json({ success: false, error: err.toString() });
-      }
-      status.power = true;
-      status.save((error) => {
-        if (error) {
-          console.error(error);
-          res.status(404).json({ success: false, error: error.toString() });
-        }
-        res.json({ success: true });
+router.get('/data', async (req, res) => {
+  const username = req.user.username;
+  const roomId = req.query.uid;
+  const deviceName = req.query.devicename;
+  if (req.query.demo) {
+    const usage = [];
+    let date = new Date();
+    for (let i = 0; i < 7; i++) {
+      usage.push({
+        date: date.toISOString().split('T')[0],
+        usage: Math.floor(Math.random() * 1400),
       });
-    });
-  } else if (req.params.actionname === 'poweroff') {
-    db.models.Status.findOne({ 'id': 'qwertyuiop' }, 'power', (err, status) => {
-      if (err) {
-        console.error(err);
-        res.status(404).json({ success: false, error: err.toString() });
-      }
-      status.power = false;
-      status.save((error) => {
-        if (error) {
-          console.error(error);
-          res.status(404).json({ success: false, error: error.toString() });
-        }
-        res.json({ success: true });
-      });
-    });
+      date = new Date(date.getTime()-1000*60*60*24);
+    }
+    res.json(usage);
+    return;
   }
+  const usageHistory = await db.functions.getDeviceUsage(
+      username, roomId, deviceName,
+  );
+  const usageHistoryList = usageHistory.split('\n')
+      .map((x) => x.split(' '));
+  const usage = [];
+  let date = new Date();
+  for (let i = 0; i < 7; i++) {
+    const lastDate = new Date(date.getTime()-1000*60*60*24);
+    const lastDayList = usageHistoryList
+        .filter(dateFilter(lastDate))
+        .sort((a, b) => a[1]-b[1]);
+    const thisDayList = usageHistoryList
+        .filter(dateFilter(date))
+        .sort((a, b) => a[1]-b[1]);
+    const lastDatLastRecord = lastDayList[lastDayList.length-1];
+    let dailyUsage = 0;
+    let lastTime = new Date(date.toDateString()).getTime();
+    let lastOn = false;
+    if (lastDatLastRecord && lastDatLastRecord[0] === 'on') {
+      lastOn = true;
+    }
+    for (const i of thisDayList) {
+      if (i[0]==='off' && lastOn) {
+        dailyUsage += Math.floor((i[1] - lastTime) / 1000 / 60);
+        lastOn = false;
+      } else if (i[0]==='on' && !lastOn) {
+        lastTime = i[1];
+        lastOn = true;
+      }
+    }
+    if (lastOn) {
+      dailyUsage += Math.floor(
+          (new Date(date.toDateString())
+              .getTime()+1000*60*60*24-lastTime) / 1000 / 60,
+      );
+    }
+    usage.push({
+      date: date.toISOString().split('T')[0],
+      usage: dailyUsage,
+    });
+    date = new Date(date.getTime()-1000*60*60*24);
+  }
+  res.json(usage);
+  return;
 });
-*/
+
+/**
+ * Date filter producer
+ * @param {Date} date
+ * @return {Function} date filter
+ */
+function dateFilter(date) {
+  new Date();
+  const dateStart = new Date(date.toDateString()).getTime();
+  const dateEnd = dateStart + 1000*60*60*24;
+  return (x) => {
+    return (x[1] >= dateStart && x[1] < dateEnd);
+  };
+}
 
 module.exports = router;

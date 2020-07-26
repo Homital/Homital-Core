@@ -640,6 +640,56 @@ async function updateDeviceStatus(
   console.log('nMdf: ', uprs.nModified);
 }
 
+/**
+ * Get room's uid
+ * @param {String} username
+ * @param {String} roomName
+ * @return {String} roomId
+ */
+async function getRoomId(username, roomName) {
+  const user = await User.findOne({username});
+  const rooms = user.toObject().rooms;
+  for (const room of rooms) {
+    if (room.name === roomName) {
+      return room.roomId;
+    }
+  }
+}
+
+/**
+ * Update a device's usage history
+ * @param {String} username
+ * @param {String} roomId
+ * @param {String} deviceName
+ * @param {String} usage
+ */
+async function updateDeviceUsage(username, roomId, deviceName, usage) {
+  const device = await Device.findOne({
+    name: deviceName,
+    roomId,
+  });
+  const oldUsage = device.get('usage');
+  const newUsage = oldUsage + usage + '\n';
+  device.set('usage', newUsage);
+  await device.save();
+}
+
+/**
+ * Get a device's usage history
+ * @param {String} username
+ * @param {String} roomId
+ * @param {String} deviceName
+ * @return {String} usage
+ */
+async function getDeviceUsage(username, roomId, deviceName) {
+  const device = await Device.findOne({
+    name: deviceName,
+    roomId,
+  });
+  const usage = device.get('usage');
+  return usage;
+}
+
 module.exports = {
   models: {
     User: User,
@@ -668,5 +718,8 @@ module.exports = {
     updateDeviceStatus,
     isPrivileged,
     memberExists,
+    getRoomId,
+    updateDeviceUsage,
+    getDeviceUsage,
   },
 };

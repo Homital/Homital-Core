@@ -55,6 +55,19 @@ router.get('/status', async (req, res) => {
   }
 });
 
+router.get('/roomid', async (req, res) => {
+  const userName = req.query.username;
+  const roomName = req.query.roomname;
+  try {
+    const roomId = await db.functions.getRoomId(userName, roomName);
+    res.json({uid: roomId});
+  } catch (error) {
+    res.status(500).json({
+      error: error.toString(),
+    });
+  }
+});
+
 const updatesRouter = require('./deviceupdates');
 
 router.use('/updates', updatesRouter);

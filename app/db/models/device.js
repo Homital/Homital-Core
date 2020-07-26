@@ -8,7 +8,11 @@ const DeviceSchema = new Schema({
   roomId: String,
   status: {
     type: String,
-    default: 'null',
+    default: null,
+  },
+  usage: {
+    type: String,
+    default: '',
   },
 });
 
