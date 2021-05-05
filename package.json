@@ -4,6 +4,7 @@
     "description": "homital backend",
     "main": "app/index.js",
     "scripts": {
+        "start": "node app/index.js",
         "test": "mocha tests/unit_tests/test.js",
         "dev": "nodemon app/index.js 2333 dev",
         "lint-md": "remark .",
