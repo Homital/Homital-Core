@@ -22,3 +22,11 @@ jobs:
         run: yarn lint:md
       - name: Run unit tests
         run: yarn test
+        env:
+          ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
+          REFRESH_TOKEN_SECRET: ${{ secrets.REFRESH_TOKEN_SECRET }}
+          HOMITALDB_CONNECTIONSTRING: ${{ secrets.HOMITALDB_CONNECTIONSTRING }}
+          NOREPLY_EMAIL_HOST: ${{ secrets.NOREPLY_EMAIL_HOST }}
+          NOREPLY_EMAIL_PORT: ${{ secrets.NOREPLY_EMAIL_PORT }}
+          NOREPLY_EMAIL_ADDR: ${{ secrets.NOREPLY_EMAIL_ADDR }}
+          NOREPLY_EMAIL_PASS: ${{ secrets.NOREPLY_EMAIL_PASS }}
