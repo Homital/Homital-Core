@@ -1,0 +1,24 @@
+name: tests
+
+on: [push, pull_request]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: master
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - name: Install npm dependencies
+        run: yarn install
+      - name: Run eslint
+        run: yarn lint:js
+      - name: Run remark-lint
+        run: yarn lint:md
+      - name: Run unit tests
+        run: yarn test

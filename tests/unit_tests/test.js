@@ -1,4 +1,4 @@
-//* eslint-disable no-undef */
+/* eslint-disable no-undef */
 /* eslint-disable require-jsdoc */
 
 const expect = require('chai').expect;
@@ -120,16 +120,18 @@ describe('#testOTP()', () => {
   context('Valid OTP', () => {
     it('should return true', () => {
       for (const otp of OTPList) {
-        expect(utils.testOTP('123@homital.orz', otp), otp + ' failed').to.be.true;
+        expect(utils.testOTP('123@homital.orz', otp), otp + ' failed')
+            .to.be.true;
       }
     });
   });
   context('Invalid OTP', () => {
     it('should return false', () => {
       for (let i = 0; i < 100; i++) {
-        const otp = ((x) => x.length < 6 ? '0' * (6 - x.length) + x : x)(Math.floor(
-            Math.random() * 1000000,
-        ).toString());
+        const otp = ((x) => x.length < 6 ? '0' * (6 - x.length) + x : x)(
+            Math.floor(
+                Math.random() * 1000000,
+            ).toString());
         let invalid = false;
         for (const t of OTPList) {
           if (t.otp !== otp) {
