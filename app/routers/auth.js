@@ -7,7 +7,6 @@ const db = require('../db/db');
 const nodemailer = require('nodemailer');
 const utils = require('../utils/utils');
 
-// Following doc
 router.post('/user/getotp', (req, res) => {
   if (!req.body.email) {
     res.status(400).json({
