@@ -1,4 +1,3 @@
-const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const express = require('express');
@@ -8,7 +7,7 @@ const morgan = require('morgan');
 
 const app = express();
 app.options('*', cors()); // include before other routes
-const port = process.argv.length > 2 ? process.argv[2] : 2333;
+const PORT = process.env.PORT || 2333;
 
 const accessLogStream = fs.createWriteStream(
     path.join(__dirname, '..', 'access.log'), {flags: 'a'},
@@ -37,16 +36,6 @@ app.get('/',
 
 app.use('/api', apiRouter);
 
-if (process.argv.includes('dev')) {
-  app.listen(port,
-      () => console.log(`Homital Core (dev) listening at port ${port}`),
-  );
-} else {
-  https.createServer({
-    key: fs.readFileSync(process.env.HTTPS_KEY),
-    cert: fs.readFileSync(process.env.HTTPS_SECRET),
-  }, app)
-      .listen(port, () => console.log(
-          `Homital Core listening at port ${port} over HTTPS`,
-      ));
-}
+app.listen(PORT,
+    () => console.log(`Homital Core listening at port ${PORT}`),
+);
