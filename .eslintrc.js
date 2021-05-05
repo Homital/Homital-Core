@@ -14,7 +14,7 @@ module.exports = {
   rules: {
     'linebreak-style': [
       'error',
-      process.env.NODE_ENV === 'prod' ? 'unix' : 'windows',
+      process.platform === 'win32' ? 'windows' : 'unix',
     ],
   },
 };
