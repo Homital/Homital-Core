@@ -1,4 +1,4 @@
-name: tests
+name: ci
 
 on: [push, pull_request]
 
@@ -21,7 +21,7 @@ jobs:
       - name: Run remark-lint
         run: yarn lint:md
       - name: Run unit tests
-        run: yarn test
+        run: yarn cover
         env:
           ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
           REFRESH_TOKEN_SECRET: ${{ secrets.REFRESH_TOKEN_SECRET }}
@@ -30,3 +30,8 @@ jobs:
           NOREPLY_EMAIL_PORT: ${{ secrets.NOREPLY_EMAIL_PORT }}
           NOREPLY_EMAIL_ADDR: ${{ secrets.NOREPLY_EMAIL_ADDR }}
           NOREPLY_EMAIL_PASS: ${{ secrets.NOREPLY_EMAIL_PASS }}
+      - name: Upload to Codecov
+        run: |
+          yarn codecov
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

@@ -5,7 +5,11 @@
     "main": "app/index.js",
     "scripts": {
         "start": "node app/index.js",
-        "test": "mocha tests/unit_tests/test.js",
+        "test": "yarn test:unit",
+        "test:unit": "mocha tests/unit_tests",
+        "cover": "yarn cover:unit && yarn cover:report",
+        "cover:unit": "nyc yarn test:unit",
+        "cover:report": "nyc report --reporter=lcov",
         "dev": "nodemon app/index.js 2333 dev",
         "lint:md": "remark .",
         "lint:js": "eslint --ext .js ."
@@ -26,10 +30,12 @@
     },
     "devDependencies": {
         "chai": "^4.2.0",
+        "codecov": "^3.8.2",
         "eslint": "^7.2.0",
         "eslint-config-google": "^0.14.0",
         "mocha": "^8.0.1",
         "nodemon": "^2.0.4",
+        "nyc": "^15.1.0",
         "remark-cli": "^8.0.0",
         "remark-lint": "^7.0.0",
         "remark-preset-lint-recommended": "^4.0.0"
