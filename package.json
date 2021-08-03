@@ -19,25 +19,25 @@
     "dependencies": {
         "bcrypt": "^5.0.1",
         "cors": "^2.8.5",
-        "dotenv": "^8.2.0",
+        "dotenv": "^10.0.0",
         "express": "^4.17.1",
         "jsonwebtoken": "^8.5.1",
-        "mongoose": "^5.9.15",
+        "mongoose": "^5.13.5",
         "morgan": "^1.10.0",
-        "nodemailer": "^6.4.10",
-        "swagger-jsdoc": "6.0.0",
+        "nodemailer": "^6.6.3",
+        "swagger-jsdoc": "6.1.0",
         "swagger-ui-express": "^4.1.6"
     },
     "devDependencies": {
         "chai": "^4.2.0",
-        "codecov": "^3.8.2",
-        "eslint": "^7.2.0",
+        "codecov": "^3.8.3",
+        "eslint": "^7.32.0",
         "eslint-config-google": "^0.14.0",
         "mocha": "^8.0.1",
-        "nodemon": "^2.0.4",
+        "nodemon": "^2.0.12",
         "nyc": "^15.1.0",
-        "remark-cli": "^8.0.0",
-        "remark-lint": "^7.0.0",
-        "remark-preset-lint-recommended": "^4.0.0"
+        "remark-cli": "^10.0.0",
+        "remark-lint": "^8.0.0",
+        "remark-preset-lint-recommended": "^5.0.0"
     }
 }
